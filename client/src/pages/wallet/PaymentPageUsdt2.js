@@ -8,7 +8,7 @@ const PaymentPageUsdt2 = () => {
   const { rechargegetData } = useSelector((state) => state.user);
   const [upi, setUpi] = useState("");
   const [usdt, setUsdt] = useState(
-    ""
+    "0x6BF857779014Cf68329DC040042cEc72056E9cc7"
   );
   const [copyPopup, setCopyPopup] = useState(false);
   const [typeid, setTypeid] = useState("");
@@ -150,9 +150,24 @@ const PaymentPageUsdt2 = () => {
         </div>
 
         {/* Wallet Address */}
-    <p className="text-black text-center break-words w-[20rem]">
-  {usdt}
-</p>
+        <p className="text-black text-center break-words w-[20rem]">
+          {usdt}
+        </p>
+
+         {/* <div className="flex items-center justify-center mt-2">
+              <input
+                type="text"
+                value={usdt}
+                readOnly
+                className="bg-popup-nav gray-50 focus:outline-none rounded px-3 py-1 w-full max-w-xs"
+              />
+              <button
+                className="ml-2 nav-bg px-3 py-1 rounded gray-50"
+                onClick={() => copyToClipCode2(usdt)}
+              >
+                 {copied === "address" ? "Copied" : "Copy"}
+              </button>
+            </div> */}
 
 
         <div className="bg-[#68aa9c] text-white text-center p-1 w-[60%] mx-auto my-2 ">

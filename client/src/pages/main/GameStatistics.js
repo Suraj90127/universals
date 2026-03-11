@@ -16,6 +16,9 @@ const GameStatistics = () => {
   const { wingoHistoryData, historyData, summaryData } = useSelector((state) => state.game);
   const dispatch = useDispatch();
 
+  console.log("summaryData",summaryData);
+  
+
   // Add gameHistory API call when tab changes
   useEffect(() => {
     dispatch(gameHistory({ filter: activeTabs }));

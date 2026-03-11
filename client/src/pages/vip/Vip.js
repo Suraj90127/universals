@@ -497,7 +497,7 @@ const Vip = () => {
                   </div>
                   <button
                   onClick={handleEveryClaim}
-                    className={`w-full bg-popup-nav hover:bg-gray-700 text-gray-300 font-medium py-2 px-4 rounded-full transition ${isButtonDisabled ? "cursor-pointer":"cursor-not-allowed" } mt-1`}  
+                    className={`w-full bg-popup-nav hover:bg-gray-700 text-gray-300 font-medium py-2 px-4 rounded-full transition ${isButtonDisabled ? "cursor-pointer bg-green-600":"cursor-not-allowed" } mt-1`}  
                     disabled={!isButtonDisabled}
                   >
                     Received

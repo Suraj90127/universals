@@ -518,7 +518,7 @@ const Home = () => {
       {topup && (
         <div className="absolute top-16 left-0 right-0 flex m-auto flex-col bg-light mx-8 pb-2 rounded-xl z-[9999]">
           <div className="blue-linear text-center p-2 font-bold text-lg text-[#292929] rounded-t-xl">
-            𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 aaladin
+            𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 universals
           </div>
           <div className=" py-2 font-medium  text-color text-[15px] bg-light">
             <div className="text-center comic-neue-regular text-[18px]  px-2">
@@ -529,7 +529,7 @@ const Home = () => {
             <br />
             <div className="text-center">
               <span className="text-sm font-extrabold text-white">
-                🌟aaladin OFFICIAL TELEGRAM🌟
+                🌟universals OFFICIAL TELEGRAM🌟
               </span>
 
               <div className="mt-3">
@@ -545,7 +545,7 @@ const Home = () => {
               <div className="mt-3 mx-2 text-white">
                 <span className="text-[15px] font-medium">
                   We have noticed an increase in imitation of our PLATFORM,
-                  aaladin . To ensure you are on the legitimate aaladin website
+                  universals . To ensure you are on the legitimate universals website
                   (
                   <span>
                     <Link className="text-blue-700" to="https://universals.pro">
@@ -576,12 +576,12 @@ const Home = () => {
       {/* {topup3 && (
         <div className="absolute top-20 left-0 right-0 flex m-auto flex-col blue-linear2  mx-8 pb-2 rounded-xl z-[9999]">
           <div className="blue-linear2 text-center p-2 font-bold text-lg color-orange rounded-t-xl">
-            𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 aaladin
+            𝕎𝕖𝕝𝕔𝕠𝕞𝕖 𝕋𝕠 universals
           </div>
           <div className=" py-2 pt-5 font-medium  text-color text-[15px] bg-light">
             <div className="text-center  text-[15px]  px-2 ">
               <span className=" text-white bg-transparent">
-                👑 WELCOME TO aaladin 👑
+                👑 WELCOME TO universals 👑
               </span>
             </div>
             <br />
@@ -610,7 +610,7 @@ const Home = () => {
                 <span className="text-[15px]">
                   🚀 Have Fun and Good Luck! 🚀 <br />
                 </span>
-                <span>Welcome to aaladin</span>
+                <span>Welcome to universals</span>
               </div>
             </div>
           </div>

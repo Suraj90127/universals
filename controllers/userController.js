@@ -7264,6 +7264,9 @@ const getHistoryFilter = async (req, res) => {
       ).toFixed(2),
     };
 
+    // console.log("lottery_summary",lottery_summary);
+    
+
     //---------------------------------------------
     // CALL EXTERNAL API FOR OTHER GAMES
     //---------------------------------------------
@@ -7274,46 +7277,56 @@ const getHistoryFilter = async (req, res) => {
       filter,
     };
 
-    const response = await fetch("https://zapcore.live/api/historyfilter", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      body: JSON.stringify(payload),
-    });
+ 
 
-    let data;
-    try {
-      data = await response.json();
-    } catch (e) {
-      return res.status(400).json({
-        status: false,
-        message: "Invalid JSON from API",
-      });
-    }
+    // const response = await fetch("https://zapcore.live/api/historyfilter", {
+    //   method: "POST",
+    //   headers: { "Content-Type": "application/json" },
+    //   body: JSON.stringify(payload),
+    // });
 
-    if (!data.status) {
-      return res.status(400).json({
-        status: false,
-        data: data,
-        message: "Failed to fetch API history",
-      });
-    }
+       console.log("lottery_summary",lottery_summary);
+
+    // let data;
+    // try {
+    //   data = await response.json();
+    // } catch (e) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     message: "Invalid JSON from API",
+    //   });
+    // }
+
+    // if (!data.status) {
+    //   return res.status(400).json({
+    //     status: false,
+    //     data: data,
+    //     message: "Failed to fetch API history",
+    //   });
+    // }
 
     //---------------------------------------------
     // FINAL SUMMARY MERGE
     //---------------------------------------------
 
-    const finalSummary = Array.isArray(data.summary)
-      ? [...data.summary]
-      : [];
+    // const finalSummary = Array.isArray(data.summary)
+    //   ? [...data.summary]
+    //   : [];
+    const finalSummary = [];
 
     // append our lottery result
     finalSummary.push(lottery_summary);
 
+    // console.log("finalSummary",finalSummary);
+    
+
     return res.status(200).json({
       status: true,
       summary: finalSummary,
-      data: data.data || [],
-      pagination: data.pagination || {},
+      // data: data.data || [],
+      data: [],
+      // pagination: data.pagination || {},
+      pagination: {},
     });
 
   } catch (error) {

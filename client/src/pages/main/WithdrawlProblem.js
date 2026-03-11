@@ -171,7 +171,7 @@ const WithdrawlProblem = () => {
               {selectedIssue && (
                 <>
                   <label className="gray-50 block text-left mb-2  font-semibold">
-                    * aaladin Games ID:
+                    * universals Games ID:
                   </label>
                   <input
                     type="text"

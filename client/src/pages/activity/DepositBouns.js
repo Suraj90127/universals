@@ -128,7 +128,7 @@ const DepositBouns = () => {
                 ></rect>
               </svg>
             </span>{" "}
-            aaladin works with more than 10,000 online live game dealers and
+            universals works with more than 10,000 online live game dealers and
             slot games, all of which are verified fair games.
           </p>
           <p className="flex items-start gap-1">
@@ -152,7 +152,7 @@ const DepositBouns = () => {
                 ></rect>
               </svg>
             </span>{" "}
-            aaladin supports fast deposit and withdrawal and looks forward to
+            universals supports fast deposit and withdrawal and looks forward to
             your visit.
           </p>
           <br />
@@ -160,7 +160,7 @@ const DepositBouns = () => {
             Gambling can be addictive, please play rationally.
           </p>
           <p className="text-[#c4933f]">
-            aaladin only accepts customers above the age of 18.
+            universals only accepts customers above the age of 18.
           </p>
         </div>
       </div>
