@@ -1,0 +1,652 @@
+
+
+
+
+
+
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+  
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+ 
+     <title>Illegal Trade Admin Panel</title>
+     <style>
+         body {
+             font-family: Arial, sans-serif;
+             background-color: #f5f5f5;
+             margin: 0;
+             padding: 0;
+         }
+         .container {
+             max-width: 1200px;
+             margin: auto;
+             padding: 20px;
+         }
+ 
+         @media (max-width: 768px) {
+             .container {
+ 
+               max-width: auto;
+             
+             padding: 10px;
+             }
+             
+         }
+         .header {
+             text-align: center;
+             background-color: #605bff;
+             color: white;
+             padding: 10px 0;
+             border-radius: 8px;
+             margin-bottom: 20px;
+         }
+         .header h1 {
+             margin: 0;
+         }
+         .dashboard {
+             display: grid;
+             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+             gap: 20px;
+         }
+         .card {
+             background: white;
+             padding: 20px;
+             border-radius: 8px;
+             box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+             text-align: center;
+         }
+         .card h3 {
+             margin: 0 0 10px;
+         }
+         .controls {
+             display: flex;
+             justify-content: space-between;
+             flex-wrap: wrap;
+             margin-top: 20px;
+             gap: 10px;
+         }
+         .controls input, .controls select {
+             padding: 10px;
+             border: 1px solid #ccc;
+             border-radius: 4px;
+             width: 48%;
+             min-width: 150px;
+         }
+         .controls button {
+             padding: 10px 20px;
+             background-color: #605bff;
+             color: white;
+             border: none;
+             border-radius: 4px;
+             cursor: pointer;
+             transition: background-color 0.3s;
+         }
+         .controls button:hover {
+             background-color: #5049d9;
+         }
+         table {
+             width: 100%;
+             border-collapse: collapse;
+             margin-top: 20px;
+             background: white;
+             border-radius: 8px;
+            overflow-x: auto;
+            
+         }
+
+         table th, table td {
+             padding: 10px;
+             text-align: left;
+             border-bottom: 1px solid #ddd;
+         }
+         table th {
+             background-color: #605bff;
+             color: white;
+             
+         }
+         .progress {
+             background-color: #e0e0e0;
+             border-radius: 8px;
+             overflow: hidden;
+             margin-top: 10px;
+             height: 20px;
+         }
+         .progress-bar {
+             height: 100%;
+             background-color: #605bff;
+             text-align: center;
+             color: white;
+             line-height: 20px; /* Center text vertically */
+         }
+         @media (max-width: 600px) {
+             .controls {
+                 flex-direction: column;
+             }
+             .controls input, .controls select {
+                 width: 100%;
+             }
+         }
+     </style>
+    
+  </head>
+
+  
+
+  <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+      <!-- Include navigation -->
+      
+      <div class="wrapper">
+        <!-- Include navigation -->
+        <%- include('nav') %>
+        <div class="content-wrapper">
+            <section class="content-header">
+                <div class="container-fluid">
+                    <div class="row mb-2">
+                        <div class="col-sm-6">
+                            <h1 style="color: #605bff; font-size: 2rem; font-weight: bold;">Illegal Trade Admin Panel</h1>
+                        </div>
+                    </div>
+                </div>
+            </section>
+
+            <!-- Main content -->
+            <section class="content">
+                <div class="container">
+                    
+
+                    <div class="controls">
+                        <input type="text" placeholder="Search by User ID" id="searchInput" />
+              
+                        <button id="searchBtn">Search</button>
+                    </div>
+   
+                    <div style="overflow-x: auto; width: 100%;">
+
+                        <table >
+                            <thead>
+                                <tr>
+                                    <th>User ID</th>
+                                    <th>Phone</th>
+                                    <th>Total Illegal Count</th>
+                                    <th>Progress (Max 10)</th>
+                                    
+                                    <th>Last Updated</th>
+                                    <th>Action</th>
+                                </tr>
+                            </thead>
+                            <tbody id="userTableBody">
+                                
+                                <!-- Add more rows as needed -->
+                            </tbody>
+                        </table>
+                    </div>
+                    
+                </div>
+            </section>
+            
+            <section class="content-header">
+                <div class="container-fluid">
+                    
+                            <h1 style="color: #605bff; font-size: 2rem; font-weight: bold;">History</h1>
+                       
+                </div>
+            </section>
+            <section class="content">
+    <div class="container">
+        <div style="overflow-x: auto; width: 100%;">
+            <table>
+                <thead>
+                    <tr>
+                        <th>Period ID</th>
+                        <th>User ID</th>
+                        <th>Phone</th>
+                        <th>Game</th>
+                        <th>Score</th>
+                        <th>Date</th>
+                    </tr>
+                </thead>
+                <tbody id="History">
+                    <!-- Dynamically populated rows will go here -->
+                </tbody>
+            </table>
+        </div>
+    </div>
+</section>
+
+        </div>
+    </div>
+        
+   
+         <a id="back-to-tops" href="#" class="btn1 back-to-top" role="button" aria-label="Scroll to top">
+           <i class="fas fa-chevron-up"></i>
+         </a>
+    </div>
+   
+    </div>
+
+     <!-- Include scripts -->
+     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+     <script>
+         const ctx1 = document.getElementById('chart1').getContext('2d');
+         const ctx2 = document.getElementById('chart2').getContext('2d');
+         const ctx3 = document.getElementById('chart3').getContext('2d');
+ 
+         new Chart(ctx1, {
+             type: 'bar',
+             data: {
+                 labels: ['Wingo'],
+                 datasets: [{ label: 'Illegal Bets', data: [20], backgroundColor: '#605bff' }]
+             },
+             options: { responsive: true }
+         });
+ 
+         new Chart(ctx2, {
+             type: 'pie',
+             data: {
+                 labels: ['Wingo'],
+                 datasets: [{ data: [100], backgroundColor: ['#605bff'] }]
+             },
+             options: { responsive: true }
+         });
+ 
+         new Chart(ctx3, {
+             type: 'scatter',
+             data: {
+                 datasets: [
+                     { label: 'Illegal Bets vs Users', data: [{ x: 20, y: 8 }], backgroundColor: '#605bff' }
+                 ]
+             },
+             options: { responsive: true }
+         });
+     </script>
+     <script src="/plugins/jquery/jquery.min.js"></script>
+     <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+     <script src="/dist/js/adminlte.min.js"></script>
+     <script src="/js/admin/admin.js"></script>
+     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+     
+    <!-- Include scripts -->
+    <script>
+      const tasks = [];
+      const sections = Array(8)
+        .fill(null)
+        .map((_, i) => ({
+          id: i + 1,
+          value: i === 7 ? "NA" : (i + 1) * 10,
+        }));
+
+      function toggleDropdown() {
+        const dropdown = document.getElementById("instructionsDropdown");
+        dropdown.style.display =
+          dropdown.style.display === "none" ? "block" : "none";
+      }
+
+      function addTask() {
+        const taskNumber = document.getElementById("taskNumber").value;
+        const spins = document.getElementById("spins").value;
+
+        if (taskNumber && spins) {
+          tasks.push({ id: tasks.length + 1, taskNumber, spins });
+          renderTasks();
+        } else {
+          alert("Please enter both Task Number and Number of Spins.");
+        }
+      }
+
+      function renderTasks() {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = tasks
+          .map(
+            (task) =>
+              `<div class="task-item">
+                <span>Task: ${task.taskNumber}</span>
+                <span>Spins: ${task.spins}</span>
+                <button onclick="deleteTask(${task.id})" class="button button-danger">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>`
+          )
+          .join("");
+      }
+
+      function deleteTask(id) {
+        const index = tasks.findIndex((task) => task.id === id);
+        if (index > -1) {
+          tasks.splice(index, 1);
+          renderTasks();
+        }
+      }
+
+      function renderSections() {
+        const sectionsContainer = document.getElementById("sections");
+        sectionsContainer.innerHTML = sections
+          .map(
+            (section) =>
+              `<div class="section-item">
+                <span>Section ${section.id}</span>
+                <input type="text" value="${section.value}" />
+              </div>`
+          )
+          .join("");
+      }
+
+      renderSections();
+    </script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
+
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        // Search button click event
+        $(".controls button").click(function () {
+            let searchValue = $(".controls input").val().trim();
+            let sortOrder = $(".controls select").val();
+            let currentDate = new Date().toISOString().split("T")[0]; // Get current date in YYYY-MM-DD format
+
+            console.log(" Search Button Clicked!");
+            console.log(" Current Date:", currentDate);
+            console.log(" User ID:", searchValue);
+            console.log(" Sort Order:", sortOrder);
+
+            // Call the fetch function with the search value (if needed)
+            fetchUserData(searchValue, sortOrder, currentDate);
+        });
+
+        function fetchUserData(userId, sortOrder, date) {
+            $.ajax({
+                type: "GET",
+                url: "/api/webapi/get-ligalTrade-data",
+                data: { user_id: userId, sort: sortOrder, date: date },
+                dataType: "json",
+                success: function (response) {
+                    console.log(" API Response:", response);
+                },
+                error: function (xhr, status, error) {
+                    console.error(" API Fetch Error:", status, error);
+                }
+            });
+        }
+    });
+</script>
+
+
+
+
+
+
+<script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+<script>
+    $(document).ready(function () {
+        fetchUserData(); // Fetch all data when the page loads
+
+        // Search Button Click Event
+        $("#searchBtn").click(function () {
+            let userId = $("#searchInput").val().trim();
+            fetchUserData(userId); // Fetch specific user data
+        });
+
+        // Fetch User Data from API
+        function fetchUserData(userId = "") {
+    $.ajax({
+        type: "POST",
+        url: "/api/webapi/get-ligalTrade-data",
+        data: { user_id: userId }, // Fetch specific or all data
+        dataType: "json",
+        success: function (response) {
+            console.log("API Response:", response);
+
+            if (response.status && response.data && response.data.users) {
+                displayUserData(response.data.users, response.data.history);
+                displayUserDatahistory(response.data.history);
+            } else {
+                console.error("Invalid response format");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("API Fetch Error:", status, error);
+        }
+    });
+}
+
+function displayUserDatahistory(history) {
+    let tableBody = $("#History");
+    tableBody.empty(); // Clear existing data
+
+    // Loop through each history entry and create a row
+    history.forEach((entry) => {
+        let row = `
+            <tr>
+                <td>${entry.period}</td>
+                <td>${entry.user_id}</td>
+                <td>${entry.phone}</td>
+                <td>${entry.game}</td>
+                <td>${entry.score}</td>
+                <td>${new Date(entry.date).toLocaleString()}</td>
+            </tr>
+        `;
+
+        tableBody.append(row);
+    });
+}
+
+
+
+        // Display User Data in Table
+        // Display User Data in Table
+function displayUserData(users, history) {
+    let tableBody = $("#userTableBody");
+    tableBody.empty(); // Clear existing data
+
+    users.forEach((user) => {
+        // Filter user's history and calculate the total score
+        let userHistory = history.filter((entry) => entry.user_id == user.id_user);
+        let totalScore = user.legal_bet_score; // Calculate total score
+
+        let progressPercentage = (totalScore / 3) * 100;
+        let progressColor = progressPercentage >= 100 ? "red" : "blue";
+
+       let row = `
+    <tr>
+        <td>${user.id_user}</td>
+        <td>${user.phone}</td>
+        <td>${user.legal_bet_score}</td>
+        <td>
+            <div class="progress">
+                <div class="progress-bar" style="width: ${progressPercentage}%; background-color: ${progressColor};">
+                    ${totalScore}/3
+                </div>
+            </div>
+        </td>
+        <td>
+            ${
+                totalScore < 10
+                    ? `<a class="btn text-success btn-sm unblock-btn" data-phone="${user.phone}"><i class="fa-solid fa-lock"></i> Unblocked</a>`
+                    : `<a class="btn text-danger btn-sm btn-info1 unblock-btn" data-phone="${user.phone}" data-id="${user.id_user}" href="#"><i class="fa-solid fa-lock-open"></i> Unlocked</a>`
+            }
+        </td>
+        <td><button class="btn btn-info btn-sm show-history-btn" data-id="${user.id_user}">Show History</button></td>
+    </tr>
+`;
+
+     
+
+        tableBody.append(row);
+    });
+
+    // Attach click event to Show History buttons
+    $(".show-history-btn").on("click", function () {
+        let userId = $(this).data("id");
+        let userHistory = history.filter((entry) => entry.user_id == userId);
+        
+        // Open Popup and Show History
+        showHistoryPopup(userHistory);
+    });
+}
+
+// Function to create and show the history popup
+function showHistoryPopup(userHistory) {
+    // Create modal content
+    let modalContent = `
+        <div class="modal fade" id="historyModal" tabindex="-1" role="dialog" aria-labelledby="historyModalLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="historyModalLabel">User History</h5>
+                        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                        </button>
+                    </div>
+                    <div class="modal-body">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Game</th>
+                                    <th>Game</th>
+                                    <th>Date</th>
+                                    <th>bet</th>
+                                    <th>Score</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+    `;
+
+    // Add rows for each history entry
+    userHistory.forEach((entry) => {
+        modalContent += `
+            <tr>
+                <td>${entry.period}</td>
+                <td>${entry.game="wingo10"?"wingo30s":entry.game}</td>
+                <td>${new Date(entry.date).toLocaleString()}</td>
+                <td>${entry.bet == "x"
+                          ? "Green"
+                          : entry.bet == "t"
+                          ? "Voilet"
+                          : entry.bet == "l"
+                          ? "Big"
+                          : entry.bet == "n"
+                          ? "Small"
+                          : entry.bet== "d"
+                          ? "Red" 
+                          : entry.bet}</td>
+                <td>${entry.score}</td>
+            </tr>
+        `;
+    });
+
+    // Close modal and add button to close
+    modalContent += `
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    `;
+
+    // Append the modal to the body and show it
+    $("body").append(modalContent);
+    $("#historyModal").modal("show");
+
+    // Clean up after modal is closed (optional)
+    $("#historyModal").on('hidden.bs.modal', function () {
+        $(this).remove();
+    });
+}
+
+
+
+
+
+// Attach unblock button click event
+
+
+
+
+        // Lock/Unlock Button Click Event - Event Delegation
+        $(document).on("click", ".unblock-btn", function (e) {
+            e.preventDefault();
+            let button = $(this);
+            let id = button.data("id");
+            // let actionType = button.hasClass("btn-lock") ? "block" : "open";
+
+            if (confirm(`Are you sure you want to unlock this account?`)) {
+             let phone = $(this).data("phone");
+    $.ajax({
+        type: "POST",
+        url: "/api/webapi/unblockLigaltrade",
+        data: { phone: phone }, // Fetch specific or all data
+        dataType: "json",
+          success: function (response) {
+            Swal.fire(
+              'Good job!',
+              'You clicked the button!',
+              'success'
+            )
+            setTimeout(() => {
+              location.reload();
+            }, 100);
+          }
+    });
+            }
+        });
+    });
+</script>
+<!-- Add jQuery -->
+<script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+
+<!-- Add Popper.js -->
+<script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/2.11.6/umd/popper.min.js"></script>
+
+<!-- Add Bootstrap 4 JS (including modal) -->
+<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
+
+
+    
+  </body>
+</html> 
+
+
+
+

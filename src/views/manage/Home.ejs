@@ -1,0 +1,1632 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>Home Page</title>
+
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+        integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
+        crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+
+
+    <style>
+        body {
+            font-family: 'Source Sans Pro', sans-serif;
+            background: linear-gradient(135deg, #f4f6f9, #e2e2e2);
+            color: #333;
+        }
+
+        .content-wrapper {
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 10px;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .card {
+            border-radius: 12px;
+            transition: 0.3s;
+            margin-bottom: 20px;
+            overflow: hidden;
+            box-shadow: 0 4px 15px rgba(0, 0, 0, 0.1);
+        }
+
+        .card-header {
+            background: linear-gradient(90deg, #d3baef, #635dff);
+            border-radius: 12px 12px 0 0;
+            padding: 20px;
+            color: #fff;
+            font-size: 1.25rem;
+        }
+
+        .card-body {
+            padding: 30px;
+        }
+
+        .fs-4 {
+            font-size: 2rem;
+        }
+
+        .graph-container {
+            background: rgba(0, 123, 255, 0.1);
+            border-radius: 12px;
+            padding: 25px;
+        }
+
+        .graph-title {
+            color: #6a11cb;
+            font-size: 1.5rem;
+            margin-bottom: 20px;
+        }
+
+        .stat-number {
+            font-size: 2rem;
+            font-weight: bold;
+        }
+
+        .progress {
+            height: 20px;
+            border-radius: 10px;
+        }
+
+        .switch-label {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+        }
+
+        .switch-label input {
+            width: 45px;
+            height: 25px;
+            border-radius: 25px;
+            background-color: #ccc;
+            appearance: none;
+            cursor: pointer;
+        }
+
+        .switch-label input:checked {
+            background-color: #28a745;
+        }
+
+        .switch-label input:checked::before {
+            transform: translateX(20px);
+            content: "";
+            background-color: #fff;
+            border-radius: 50%;
+            height: 20px;
+            width: 20px;
+            position: absolute;
+            top: 2px;
+            left: 2px;
+            transition: transform 0.3s ease;
+        }
+
+        @media (max-width: 768px) {
+            .card {
+                margin-bottom: 15px;
+            }
+        }
+
+        .dashboard-container {
+            padding: 20px;
+        }
+
+        .bg-green {
+            background: linear-gradient(360deg, #9be7ad, #41e467);
+            color: #155724;
+        }
+
+        .bg-blue {
+            background: linear-gradient(360deg, #36c1da, #44ddf5);
+            color: #0c5460;
+        }
+
+        .bg-red {
+            background: linear-gradient(360deg, #f3aeb4, #f07682);
+            color: #721c24;
+        }
+
+        .bg-yellow {
+            background: linear-gradient(360deg, #f1d98a, #e9c148);
+            color: #856404;
+        }
+
+        .section-title {
+            text-align: start;
+                            color: #605bff;
+                            font-size: 2rem;
+                            font-weight: bold;
+                            text-shadow: 2px 2px #E8F5E9;
+        }
+
+        .text-muted {
+            font-size: 0.9rem;
+        }
+
+        .list-group-item {
+            background-color: #f8f9fa;
+            border: none;
+        }
+
+        .list-group-item:hover {
+            background-color: #e2e6ea;
+        }
+
+
+
+        @media (max-width: 768px) {
+            .charts-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+
+        .game-stats-section {
+           
+            margin: 2rem auto;
+            padding: 1rem;
+        }
+
+        .game-stats-title {
+            text-align: start;
+            font-size: 2.5rem;
+            font-weight: bold;
+            color: #605bff;
+            text-align: center;
+            margin-bottom: 2rem;
+            text-shadow: 1px 1px 4px rgba(0, 0, 0, 0.1);
+        }
+
+        .game-stats-container {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 100px;
+        }
+
+        
+
+       
+
+        .game-stats-chart-title {
+            font-size: 1.5rem;
+            font-weight: bold;
+            color: #605bff;
+            margin-bottom: 1rem;
+        }
+
+        canvas {
+            max-width: 100%;
+            height: auto;
+        }
+
+        @media (max-width: 768px) {
+            .game-stats-container {
+                flex-direction: column;
+                align-items: center;
+            }
+        }
+
+        .game-settings-title {
+                            text-align: start;
+                            color: #605bff;
+                            font-size: 2rem;
+                            font-weight: bold;
+                            text-shadow: 2px 2px #E8F5E9;
+                        }
+                    
+                        .game-settings-card {
+                            border: 2px solid #b1aff3;
+                            border-radius: 12px;
+                            box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+                            /* background: linear-gradient(135deg, #f5f7f7, #d8edf6); */
+                            transition: transform 0.3s ease, box-shadow 0.3s ease;
+                        }
+                    
+                        .game-settings-card:hover {
+                            transform: translateY(-10px);
+                            box-shadow: 0 8px 16px rgba(0, 0, 0, 0.3);
+                        }
+                    
+                        .game-settings-card-title {
+                            color: #605bff;
+                            font-weight: bold;
+                        }
+                    
+                        .game-settings-description {
+                            color: #616161;
+                        }
+                    
+                        .game-settings-switch-label {
+                            display: flex;
+                            justify-content: space-between;
+                            align-items: center;
+                            margin: 1rem 0;
+                        }
+                    
+                        .game-settings-switch-label span {
+                            font-size: 1.1rem;
+                            color: #605bff;
+                        }
+                    
+                        .game-settings-switch-btn {
+                            font-size: 17px;
+  position: relative;
+  display: inline-block;
+  width: 3.5em;
+  height: 2em;
+                        }
+                    
+                        .game-settings-switch-btn input {
+                            opacity: 0;
+  width: 0;
+  height: 0;
+                        }
+                    
+                        .game-settings-slider {
+                            position: absolute;
+  cursor: pointer;
+  inset: 0;
+  border: 2px solid #414141;
+  border-radius: 50px;
+  transition: all 0.4s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+                        }
+                    
+                        .game-settings-slider:before {
+                            position: absolute;
+                            content: "";
+                            height: 1.4em;
+                            width: 1.4em;
+                            left: 0.2em;
+                            bottom: 0.2em;
+                            background-color: rgb(16, 126, 221);
+                            border-radius: inherit;
+                            transition: all 0.4s cubic-bezier(0.23, 1, 0.320, 1);
+                        }
+                    
+                        .game-settings-switch-btn input:checked + .game-settings-slider {
+                            box-shadow: 0 0 20px rgba(9, 117, 241, 0.8);
+                            border: 2px solid #0974f1;
+                        }
+                    
+                        .game-settings-switch-btn input:checked + .game-settings-slider:before {
+                            transform: translateX(1.5em);
+                        }
+                    
+                        @media (max-width: 768px) {
+                            .game-settings-card {
+                                margin-bottom: 1rem;
+                            }
+                        }
+
+                
+                        
+                        h1 {
+      text-align: center;
+      color: #605bff;
+      font-size: 2.5rem;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.3);
+    }
+
+    .container {
+      max-width: 800px;
+      margin: 0 auto;
+      background-color: #ffffff;
+      padding: 30px;
+      border-radius: 15px;
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+      overflow: hidden;
+      margin-left: 0px;
+
+    }  
+
+    @media (width: 768px) {
+
+      .container {
+        margin-left: 40px;
+      }
+    }
+      
+    
+    .section {
+      margin-bottom: 20px;
+    }
+
+    .section-title {
+      font-size: 1.5rem;
+      font-weight: bold;
+      color: #4a90e2;
+      margin-bottom: 15px;
+    }
+
+    .input-group {
+      display: flex;
+      align-items: center;
+      margin-bottom: 15px;
+      justify-content: space-between;
+    }
+
+    .input-box {
+      display: flex;
+      flex-direction: column;
+      flex: 1;
+      margin: 0 10px;
+    }
+
+    .label {
+      font-weight: bold;
+      color: #4a90e2;
+      text-shadow: 1px 1px rgba(0, 0, 0, 0.1);
+      margin-bottom: 5px;
+    }
+
+    .input-field {
+      padding: 12px;
+      border: 2px solid #ccc;
+      border-radius: 8px;
+      font-size: 1rem;
+      transition: border-color 0.3s, box-shadow 0.3s;
+    }
+
+    .input-field:focus {
+      border-color: #4a90e2;
+      box-shadow: 0 0 8px rgba(74, 144, 226, 0.5);
+      outline: none;
+    }
+
+    .submit-btn {
+      display: block;
+      width: 100%;
+      background: linear-gradient(90deg, #4a90e2, #f06);
+      color: #fff;
+      padding: 15px;
+      border: none;
+      border-radius: 10px;
+      font-size: 1.2rem;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s, transform 0.2s;
+    }
+
+    .submit-btn:hover {
+      background: linear-gradient(90deg, #f06, #4a90e2);
+      transform: scale(1.05);
+    }
+
+    .error-message {
+      color: #f06;
+      font-size: 0.9rem;
+      margin-top: -10px;
+      margin-bottom: 10px;
+      display: none;
+    }
+
+    @media (max-width: 480px) {
+      .input-group {
+        flex-direction: column;
+        align-items: flex-start;
+      }
+
+      .section-title {
+        font-size: 1.2rem;
+      }
+
+      .submit-btn {
+        font-size: 1rem;
+        padding: 12px;
+      }
+    }
+
+
+
+    .attendance-container {
+   
+    justify-content: center;
+    align-items: center;
+    height: auto;
+    padding: 20px;
+    padding-top: 10px;
+  }
+
+  .attendance-dashboard {
+    background-color: #fff;
+    padding: 30px;
+    border-radius: 12px;
+    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+    width: auto;
+    font-family: 'Arial', sans-serif;
+  }
+
+  .attendance-dashboard-title {
+    font-size: 1.8em;
+    color: #4e73df;
+    text-align: center;
+    margin-bottom: 20px;
+  }
+
+  .attendance-alert {
+    padding: 10px;
+    background-color: #f8d7da;
+    color: #721c24;
+    border-radius: 5px;
+    margin-bottom: 15px;
+    font-size: 0.9em;
+  }
+
+  .attendance-form-group {
+    margin-bottom: 20px;
+  
+  }
+  .attendance-form-group1 {
+    margin-bottom: 20px;
+    display: flex;
+  }
+
+  .attendance-form-label {
+    font-size: 1.1em;
+    margin-bottom: 8px;
+    color: #555;
+  }
+
+  .attendance-form-input {
+    width: 100%;
+    padding: 12px;
+    border: 2px solid #ddd;
+    border-radius: 8px;
+    font-size: 1em;
+    margin-top: 5px;
+    box-sizing: border-box;
+  }
+
+  .attendance-phone-input {
+    width: calc(100% - 50px);
+    display: inline-block;
+  }
+
+  .attendance-dropdown {
+    width: 60px;
+    margin-right: 10px;
+  }
+
+  .attendance-textarea {
+    height: 100px;
+    resize: vertical;
+  }
+
+  .attendance-send-btn {
+    background-color: #4e73df;
+    color: white;
+    padding: 12px 20px;
+    border: none;
+    border-radius: 8px;
+    font-size: 1.1em;
+    cursor: pointer;
+    width: 100%;
+    transition: background-color 0.3s;
+  }
+
+  .attendance-send-btn:hover {
+    background-color: #3551b5;
+  }
+
+
+   /* Main container styles */
+   .chart-bar {
+      display: flex;
+      justify-content: space-between;
+      gap: 20px;
+      margin: 50px;
+      flex-wrap: wrap; /* Ensures wrapping on smaller screens */
+    }
+
+    /* Bar Chart container */
+    .barchart-container,
+    .donutchart-container {
+      width: 45%;
+      height: 400px;
+    }
+
+    /* Adjustments for small screens */
+    @media (max-width: 576px) {
+      .chart-bar {
+        flex-direction: column;
+        align-items: center;
+      }
+
+      .barchart-container,
+      .donutchart-container {
+        width: 100%;
+        height: auto; /* Maintain aspect ratio */
+      }
+    }
+
+    /* Adjustments for medium screens */
+    @media (min-width: 760px) {
+      .barchart-container {
+        width: 48%;
+        height: 500px;
+      }
+
+      .donutchart-container {
+        width: 48%;
+        height: 500px;
+      }
+    }
+
+    .AttendanceBones{
+        display: flex;
+        flex-direction: column;
+        
+       
+        padding: 10px;
+    }
+
+   
+
+    .settings-container {
+            width: 90%;
+            max-width: 700px;
+            margin: 20px;
+            
+            background-color: #ffffff;
+            padding: 30px;
+            border-radius: 10px;
+            box-shadow: 0px 4px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        h1.title {
+            text-align: center;
+            margin-bottom: 25px;
+            font-size: 28px;
+            color: #495057;
+        }
+
+        .input-group {
+            margin-bottom: 25px;
+        }
+
+        label {
+            font-size: 16px;
+            font-weight: 600;
+            color: #495057;
+            display: block;
+            margin-bottom: 8px;
+        }
+
+        input[type="number"], select {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            border-radius: 8px;
+            border: 1px solid #ced4da;
+            margin-top: 5px;
+        }
+
+        .submit-btn {
+            width: 100%;
+            padding: 12px;
+            background-color: #007bff;
+            border: none;
+            color: white;
+            font-size: 18px;
+            font-weight: bold;
+            border-radius: 8px;
+            cursor: pointer;
+        }
+
+        .submit-btn:hover {
+            background-color: #0056b3;
+        }
+
+        .response-message {
+            display: none;
+            text-align: center;
+            margin-top: 15px;
+            padding: 12px;
+            border-radius: 8px;
+        }
+
+        .response-message.success {
+            background-color: #d4edda;
+            color: #155724;
+        }
+
+        .response-message.error {
+            background-color: #f8d7da;
+            color: #721c24;
+        }
+
+
+   
+    </style>
+
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+
+
+</head>
+
+<body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+        <!-- Include Navigation -->
+        <%- include('nav') %>
+
+        <div class="content-wrapper p-3">
+            <div class="row">
+                <div class="dashboard-container container-fluid">
+                    <h1 class="game-settings-title ">Dashboard</h1>
+                    <div class="row g-4">
+                        <div class="col-md-3">
+                            <div class="card p-3 bg-green">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-user-plus icon"></i>
+                                    <h5 class="card-title">Active Users</h5>
+                                </div>
+                                <p class="fs-4" id="activeUser">0</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 bg-blue">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-users icon"></i>
+                                    <h5 class="card-title"> Total Actual Users</h5>
+                                </div>
+                                <p class="fs-4" id="totalUser">0</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 bg-blue">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-users icon"></i>
+                                    <h5 class="card-title">Total Demo Users</h5>
+                                </div>
+                                <p class="fs-4" id="totalDemoUser">0</p>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="card p-3 bg-red">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-wallet icon"></i>
+                                    <h5 class="card-title">User  Balance</h5>
+                                </div>
+                                <p class="fs-4" id="totalUserBlance">₹0</p>
+                            </div>
+                        </div>
+                        <!-- <div class="col-md-3">
+                            <div class="card p-3 bg-yellow">
+                                <div class="d-flex align-items-center">
+                                    <i class="fas fa-power-off icon"></i>
+                                    <h5 class="card-title">Website Mode</h5>
+                                </div>
+                                
+                                <div class="game-settings-switch-label">
+                                    <label class="game-settings-switch-btn">
+                                        <input type="checkbox" id="website-mode">
+                                        <span class="game-settings-slider"></span>
+                                    </label>
+                                </div>
+                             
+                            </div>
+                        </div> -->
+                    </div>
+                    <div>
+                        <h2 class="game-settings-title mt-4">Game Settings</h2>
+                        <div class="row g-4">
+                            <div class="col-md-6">
+                                <div class="game-settings-card p-3">
+                                    <h5 class="game-settings-card-title">Game Winning Type</h5>
+                                    <div class="game-settings-switch-label">
+                                        <span>Random Winning</span>
+                                        <label class="game-settings-switch-btn">
+                                            <input type="checkbox" id="random-winning">
+                                            <span class="game-settings-slider"></span>
+                                        </label>
+                                    </div>
+                                    <p class="game-settings-description">
+                                        "Random Winning" selects the winner by chance, while "Least Bet" rewards the player with the smallest unique bet, combining both luck and strategy.
+                                    </p>
+                                </div>
+                            </div>
+                    
+                            <div class="col-md-6">
+                                <div class="game-settings-card p-3">
+                                    <h5 class="game-settings-card-title">Deposit Requirement</h5>
+                                    <div class="game-settings-switch-label">
+                                        <span>Optional</span>
+                                        <label class="game-settings-switch-btn">
+                                            <input type="checkbox" id="deposit-required">
+                                            <span class="game-settings-slider"></span>
+                                        </label>
+                                    </div>
+                                    <p class="game-settings-description">
+                                        If marked as "Required," players must deposit funds to participate. If "Optional," players can join without a deposit, providing more flexibility.
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    
+                     
+
+          
+
+                        <h2 class="game-settings-title mt-4">Additional Stats</h2>
+                        <div class="row g-4">
+                            <div class="col-md-4">
+                                <div class="card p-3 bg-green">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-chart-line icon"></i>
+                                        <h5 class="card-title  " >Daily Active Users</h5>
+                                    </div>
+                                    <p class="fs-4" id="dailyActiveUsers">0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 bg-blue">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-money-check-alt icon"></i>
+                                        <h5 class="card-title">Total Deposits</h5>
+                                    </div>
+                                    <p class="fs-4" id="totaldeposits">0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-4">
+                                <div class="card p-3 bg-red">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-hand-holding-usd icon"></i>
+                                        <h5 class="card-title">Total Withdrawals</h5>
+                                    </div>
+                                    <p class="fs-4" id="totalwithdrawals">0</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 bg-yellow">
+                                    <div class="d-flex gap-2 align-items-center">
+                                        <i class="fas fa-percent icon"></i>
+                                        <h5 class="card-title">Admin Winning Percentage</h5>
+                                    </div>
+                                    <p class="fs-4 " id="winningPercentage">50</p>
+                                </div>
+                            </div>
+                            <div class="col-md-6">
+                                <div class="card p-3 bg-green">
+                                    <div class="d-flex align-items-center">
+                                        <i class="fas fa-user-clock icon"></i>
+                                        <h5 class="card-title">User Winning Percentage</h5>
+                                    </div>
+                                    <p class="fs-4 " id="userwinningPercentage">0</p>
+                                </div>
+                            </div>
+                           
+                        </div>
+                     </div>
+
+                <div class="AttendanceBones">
+                    <h1>Attendance Bones</h1>
+                    <div class="container AttendanceBones1">
+                        <!-- Attendance Section -->
+                        <div class="section">
+                            <div class="section-title">Attendance and Recharge</div>
+                            <div id="attendanceContainer"></div>
+                        </div>
+                
+                        <!-- Submit Button -->
+                        <button class="submit-btn" onclick="submitData()">Submit</button>
+                        <br>
+                        <p class="error-message" id="error-message">⚠️ Please fill in all fields!</p>
+                    </div>
+                </div>
+                
+                <script>
+                    document.addEventListener("DOMContentLoaded", function () {
+                        fetchAttendanceData();
+                    });
+                
+                    function fetchAttendanceData() {
+                        $.ajax({
+                            url: "/api/webapi/get-attendencs-bonus",
+                            method: "GET",
+                            success: function (response) {
+                                if (response.success) {
+                                    populateFields(response.data);
+
+                                    // console.log("atttendance data", response.data); 
+                                } else {
+                                    console.error("Error: Invalid response data");
+                                }
+                            },
+                            error: function (error) {
+                                console.error("API Error:", error);
+                            }
+                        });
+                    }
+                
+                    function populateFields(data) {
+                        const container = document.getElementById("attendanceContainer");
+                        container.innerHTML = "";
+                
+                        for (let i = 1; i <= 7; i++) {
+                            container.innerHTML += `
+                                <div class="input-group">
+                                    <div class="input-box">
+                                        <label class="label">Day ${i} Attendance:</label>
+                                        <input type="text" class="input-field" id="day${i}" value="${data[`day${i}`] || ''}" placeholder="Enter attendance for Day ${i}">
+                                    </div>
+                                    <div class="input-box">
+                                        <label class="label">Day ${i} Recharge:</label>
+                                        <input type="text" class="input-field" id="recharge${i}" value="${data[`day${i}rech`] || ''}" placeholder="Enter recharge for Day ${i}">
+                                    </div>
+                                </div>
+                            `;
+                        }
+                    }
+                
+                  
+
+                    function submitData() {
+                    const data = { days: {} };
+                    const errorMessage = document.getElementById('error-message');
+                    let isValid = true;
+
+                    for (let i = 1; i <= 7; i++) {
+                        const dayInput = document.getElementById(`day${i}`);
+                        const rechargeInput = document.getElementById(`recharge${i}`);
+
+                        if (!dayInput.value.trim() || !rechargeInput.value.trim()) {
+                            isValid = false;
+                            break;
+                        }
+
+                        data.days[`day${i}`] = dayInput.value.trim();
+                        data.days[`day${i}rech`] = rechargeInput.value.trim();
+                    }
+
+                    if (isValid) {
+                        errorMessage.style.display = 'none';
+                        $.ajax({
+                            url: "/api/webapi/update-attendencs-bonus",
+                            method: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(data),
+                            success: function (response) {
+                                console.log("Update Response:", response);
+                                Swal.fire({
+                                    title: "Success!",
+                                    text: "✅ Data updated successfully!",
+                                    icon: "success",
+                                    confirmButtonText: "OK"
+                                });
+                            },
+                            error: function (error) {
+                                console.error("Error updating data:", error);
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "❌ Failed to update data!",
+                                    icon: "error",
+                                    confirmButtonText: "Try Again"
+                                });
+                            }
+                        });
+                    } else {
+                        errorMessage.style.display = 'block';
+                    }
+                }
+
+                </script>
+                
+               
+                <di>
+                    <div class="">
+                    
+
+                    <div class="attendance-container">
+                      <h1>Admin Alert</h1>
+                        <div class="attendance-dashboard">
+                          <h2 class="attendance-dashboard-title">Admin Alert Message</h2>
+                      
+                          <div id="attendance-alert" class="attendance-alert" style="display: none;">
+                            <strong>Warning!</strong> Please enter a valid phone number.
+                          </div>
+                      
+                            <label class="attendance-form-label">Phone Number:</label>
+                          <div class="attendance-form-group1">
+                            
+                            <!-- Dropdown for country code -->
+                            <select class="attendance-form-input attendance-dropdown" id="country-code" required>
+                              <option value="91">91+</option>
+                              <!-- You can add other country codes here -->
+                            </select>
+                          
+                            <!-- Input for phone number -->
+                            <input 
+                            type="text" 
+                            class="attendance-form-input attendance-phone-input" 
+                            id="attendance-phone" 
+                            placeholder="Enter 10-digit phone number" 
+                            pattern="[0-9]{10}" 
+                            title="Enter a valid 10-digit phone number" 
+                            required
+                        >
+        
+                          </div>
+                       <!-- Message Input -->
+                        <div class="attendance-form-group">
+                            <label class="attendance-form-label">Message:</label>
+                            <textarea class="attendance-form-input attendance-textarea" id="attendance-message" rows="4"></textarea>
+                        </div>       
+                        <button class="attendance-send-btn" onclick="attendanceSendMessage()">Send</button>
+
+                        </div>
+                    </div>
+
+                   <!-- set alert messgees -->
+                      <script>
+                        function attendanceSendMessage() {
+                            console.log("jwgytewgtygytgtygtygtygty")
+                        const countryCode = document.getElementById("country-code").value;
+                        const phone = document.getElementById("attendance-phone").value.trim();
+                        const message = document.getElementById("attendance-message").value.trim();
+
+                        // Full Phone Number (Including Country Code)
+                        const fullPhone = `${phone}`;
+
+                        // Validation: Ensure phone is 10 digits
+                        if (!/^\d{10}$/.test(phone)) {
+                            Swal.fire({
+                                title: "Invalid Phone!",
+                                text: "Please enter a valid 10-digit phone number.",
+                                icon: "error",
+                                confirmButtonText: "OK"
+                            });
+                            return;
+                        }
+
+                        // Validation: Ensure message is not empty
+                        if (message === "") {
+                            Swal.fire({
+                                title: "Message Required!",
+                                text: "Please enter a message before sending.",
+                                icon: "warning",
+                                confirmButtonText: "OK"
+                            });
+                            return;
+                        }
+
+                        // Prepare Data
+                        const data = { phone: fullPhone, message };
+
+                        // AJAX Request to Update Message
+                        $.ajax({
+                            url: "/api/webapi/set-warning-alert",
+                            method: "POST",
+                            contentType: "application/json",
+                            data: JSON.stringify(data),
+                            success: function (response) {
+                                Swal.fire({
+                                    title: "Success!",
+                                    text: "Message updated successfully.",
+                                    icon: "success",
+                                    confirmButtonText: "OK"
+                                });
+                            },
+                            error: function (error) {
+                                Swal.fire({
+                                    title: "Error!",
+                                    text: "Failed to update message. Please try again!",
+                                    icon: "error",
+                                    confirmButtonText: "OK"
+                                });
+                            }
+                        });
+                    }
+                    </script>
+
+
+
+
+                        <div class="settings-container">
+                        <h1 class="title">Configure Signup Bonus</h1>
+
+                        <div class="response-message" id="response-message"></div>
+
+                        <form id="bonusConfigForm">
+                            <div class="input-group">
+                                <label for="signup_bonus">Signup Bonus Amount:</label>
+                                <input type="number" id="signup_bonus" name="signup_bonus" required step="0.01" placeholder="Enter bonus amount" />
+                            </div>
+                            <button type="submit" class="submit-btn">Save Settings</button>
+                        </form>
+                        </div>
+
+                        <script>
+                            document.getElementById("bonusConfigForm").addEventListener("submit", async function (e) {
+                                e.preventDefault();
+                        
+                                const amount = document.getElementById("signup_bonus").value.trim();
+                        
+                                if (!amount || isNaN(amount)) {
+                                    Swal.fire({
+                                        title: "Invalid Amount!",
+                                        text: "Please enter a valid signup bonus amount.",
+                                        icon: "error",
+                                        confirmButtonText: "OK",
+                                    });
+                                    return;
+                                }
+                        
+                                try {
+                                    const response = await fetch("/api/webapi/set-sinup-bonus", {
+                                        method: "POST",
+                                        headers: { "Content-Type": "application/json" },
+                                        body: JSON.stringify({ amount }),
+                                    });
+                        
+                                    const data = await response.json();
+                        
+                                    if (data.status) {
+                                        Swal.fire({
+                                            title: "Success!",
+                                            text: "Signup bonus updated successfully.",
+                                            icon: "success",
+                                            confirmButtonText: "OK",
+                                        });
+                                    } else {
+                                        Swal.fire({
+                                            title: "Error!",
+                                            text: data.message || "Failed to update bonus.",
+                                            icon: "error",
+                                            confirmButtonText: "OK",
+                                        });
+                                    }
+                                } catch (error) {
+                                    console.error("Error:", error);
+                                    Swal.fire({
+                                        title: "Error!",
+                                        text: "Internal server error. Please try again later.",
+                                        icon: "error",
+                                        confirmButtonText: "OK",
+                                    });
+                                }
+                            });
+                        </script>
+
+                        </div>
+
+                        <script>
+                        // function attendanceSendMessage() {
+                        const phone = document.getElementById("attendance-phone").value;
+                        const message = document.getElementById("attendance-message").value;
+                        const alertDiv = document.getElementById("attendance-alert");
+
+                        // Basic phone number validation (you should implement more robust validation)
+                        if (!phone.match(/^\d{10}$/)) { 
+                            alertDiv.style.display = "block";
+                            return;
+                        } else {
+                            alertDiv.style.display = "none";
+                        }
+
+                        // Here you would implement the logic to send the message 
+                        // (e.g., using a third-party API like Twilio, or sending an email)
+                        console.log("Sending message to:", phone);
+                        console.log("Message:", message);
+                        
+                        </script>
+                     </div>
+                
+                <div class="" style="width: 100%;">
+                  <!-- Additional Information -->
+                <div class="row mt-4">
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="card-header">
+                              <h5>Deposits</h5>
+                          </div>
+                          <div class="card-body">
+                              <p class="text-muted">Today's Recharge: <p id="todayrecharge">0</p></p>
+                              <p class="text-muted">Pending Recharges: <p id="pendingRecharge">0</p></p>
+                              <p class="text-muted">Successful Recharges: <p id="successFullRechare">0</p></p>
+                              <div class="progress">
+                                  <div class="progress-bar bg-success" style="width: 0%;" role="progressbar">0%</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+                  <div class="col-md-6">
+                      <div class="card">
+                          <div class="card-header">
+                              <h5>Withdrawals</h5>
+                          </div>
+                          <div class="card-body">
+                              <p class="text-muted">Today's Withdrawal: <p id="todaywithdrawal">0</p></p>
+                              <p class="text-muted">Pending Withdrawals: <p id="pendingwithdrawal">0</p></p>
+                              <p class="text-muted">Total Withdrawals: <p id="totalwithdrawal">0</p></p>
+                              <div class="progress">
+                                  <div class="progress-bar bg-danger" style="width: 0%;" role="progressbar">0%</div>
+                              </div>
+                          </div>
+                      </div>
+                  </div>
+              </div>
+
+              <!-- Switches -->
+              
+                </div>
+
+
+               <div>
+                
+
+                
+            </div>
+
+     
+          
+
+       
+            <script src="/plugins/jquery/jquery.min.js"></script>
+            <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+            <script src="/dist/js/adminlte.min.js"></script>
+            <script src="/js/admin/admin.js"></script>
+            <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+            <script>
+                // Example AJAX Call
+                $.ajax({
+                    url: '/api/webapi/admin/livechat',
+                    method: 'GET',
+                    success: function (response) {
+                        // console.log('Response data:', response);
+                    },
+                    error: function (error) {
+                        console.error('Error:', error);
+                    }
+                });
+
+                function show(params) {
+                    if (params.length === 0) {
+                        $('tbody').html(`
+                            <tr class="text-center">
+                                <td colspan="10">No more data available...</td>
+                            </tr>
+                        `);
+                        return;
+                    }
+                    let html = '';
+                    params.forEach(data => {
+                        html += `
+                            <tr class="text-center">
+                                <td>${data.id}</td>
+                                <td><b>${data.phone}</b></td>
+                                <td><b>${data.user_id}</b></td>
+                                <td><b>${data.amount}</b></td>
+                                <td><b>${data.orderNo}</b></td>
+                                <td><b>${data.utr}</b></td>
+                                <td><b>${data.issue}</b></td>
+                                <td class="project-state"><span class="badge badge-warning">Waiting...</span></td>
+                                <td><b>${data.today}</b></td>
+                                <td class="project-actions text-center">
+                                    <a class="btn btn-success btn-sm confirm-btn" href="#" data="${data.id}"><i class="fa fa-check"></i></a>
+                                    <a class="btn btn-danger btn-sm delete-btn" href="#" data="${data.id}"><i class="fas fa-trash"></i></a>
+                                </td>
+                            </tr>`;
+                    });
+                    $('tbody').html(html);
+                }
+            </script>
+        </div>
+    </div>
+
+
+    <script>
+        // Get active user
+        $.ajax({
+            url: '/api/webapi/get-active-user',
+            method: 'GET',
+            success: function (response) {
+                // console.log('Response data1111:', response);
+                
+                // Check if response contains valid data
+                if (response) {
+                    $("#activeUser").text(response.activeUsers);
+                    $("#totalUser").text(response.totalUser);
+                    $("#totalDemoUser").text(response.totalDemoUser);
+                    $("#totalUserBlance").text(response.totalMoney);
+                    $("#dailyActiveUsers").text(response.todayUser);
+                    
+                    
+                } else {
+                    $("#activeUser").text("No active users found.");
+                    $("#totalUser").text("No users found.");
+                    $("#totalDemoUser").text("No users found.");
+                    $("#totalUserBlance").text("No money found.");
+                    $("#dailyActiveUsers").text("Not found Today User.");
+                    $("#totaldeposits").text("Not found Total Deposits.");
+                }
+            },
+            error: function (error) {
+                console.error('Error:', error);
+                $("#activeUser").text("Failed to load active users.");
+            }
+        });
+
+        let adminId = 1; 
+
+
+
+        $.ajax({
+                url: "/api/webapi/get-deposite-requrment",
+                method: "GET",
+                contentType: "application/json",
+                // data: JSON.stringify({ id: adminId}),
+                success: function (response) {
+                    // console.log("Response11111111111:", response.data);
+                     $("#signup_bonus").val(response.sinupBonus);
+                    if (response.data && response.data === "1") {
+                    $("#deposit-required").prop("checked", true);
+                }
+                   
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+       
+
+
+
+       $(document).ready(function () {
+        // let adminId = 1; // Replace with actual admin ID
+
+        $("#deposit-required").change(function () {
+            let depositRequired = this.checked ? "1" : "0";
+
+            $.ajax({
+                url: "/api/webapi/set-deposite-requrment",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ id: adminId, depositerequrments: depositRequired }),
+                success: function (response) {
+                    // console.log("Response11111111111:", response);
+                    if (response.status && response.depositerequrments === "1") {
+                    $("#deposit-required").prop("checked", true);
+                }
+                   
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+            $.ajax({
+                url: "/api/webapi/get-attendencs-bonus",
+                method: "GET",
+                contentType: "application/json",
+                data: { },
+                success: function (response) {                   
+                    console.log("Response11111111111:", response);
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+    });
+
+
+
+            $.ajax({
+                url: "/api/webapi/get-website-mode",
+                method: "GET",
+                contentType: "application/json",
+                // data: JSON.stringify({ id: adminId}),
+                success: function (response) {
+                    // console.log("Response11111111111:", response.data);
+                    if (response.data && response.data === "1") {
+                    $("#random-winning").prop("checked", true);
+                }
+                   
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+
+
+            
+            $(document).ready(function () {
+        // let adminId = 1; // Replace with actual admin ID
+
+            $("#random-winning").change(function () {
+            let websiteMOde = this.checked ? "1" : "0";
+
+            $.ajax({
+                url: "/api/webapi/set-website-mode",
+                method: "POST",
+                contentType: "application/json",
+                data: JSON.stringify({ id: adminId, depositerequrments: websiteMOde }),
+                success: function (response) {
+                    // console.log("Response11111111111:", response);
+                    if (response.status && response.depositerequrments === "1") {
+                    $("#random-winning").prop("checked", true);
+                }
+                   
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+
+            $.ajax({
+                url: "/api/webapi/get-attendencs-bonus",
+                method: "GET",
+                contentType: "application/json",
+                data: { },
+                success: function (response) {                   
+                    // console.log("Response11111111111:", response);
+
+                },
+                error: function (error) {
+                    console.error("Error:", error);
+                }
+            });
+        });
+    });
+
+        </script>
+
+<script>
+    $.ajax({
+        url: '/api/webapi/get-winning-percentage',
+        method: 'GET',
+        success: function (response) {
+   
+            //if (response) {
+            //    $("#winningPercentage").text(response.adminProfitPercentage + "%");
+               // $("#userwinningPercentage").text(response.userWinningPercentage + "%"); 
+            //} else {
+                $("#winningPercentage").text("50%");
+               $("#userwinningPercentage").text("50%");
+            //}
+        },
+        error: function (error) {
+            console.error('Error:', error);
+            $("#WinningPercentage").text("Failed to load data.");
+        }
+    });
+</script>
+
+<script>
+     $(window).on("load", function () {
+    const date = new Date();
+    const todayDate = date.toISOString().split("T")[0];
+
+    // console.log("Today's date:", todayDate);
+
+    $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/statistical",
+        data: { today: todayDate },
+        dataType: "json",
+        success: function (response) {
+            // console.log("API Response:", response);
+
+            let usersOnline = response.usersOnline || 0;
+            let win = response.win || 0;
+            let loss = response.loss || 0;
+            let bet = response.bet || 0;
+            let betToday = response.betToday || 0;
+            let usersOffline = response.usersOffline || 0;
+            let recharges = response.recharges || 0;
+            let withdraws = response.withdraws || 0;
+            let rechargeToday = response.rechargeToday || 0;
+            let withdrawToday = response.withdrawToday || 0;
+            let pl = response.pl || 0;
+            let pltoday = response.pltoday || 0;
+
+            //  Fix: Ensure pending withdrawals and recharges are retrieved
+            let pendingwithdraw = response.pendigwithdraws || 0;
+            let pendingrecharge = response.pendigrecharges || 0;
+
+            $(".totalMember").text(usersOnline);
+            $(".totalWin").text(win);
+            $(".totalWinCount").text(response.wincount || 0);
+            $(".totalbets").text(bet);
+            $(".todaybets").text(betToday);
+            $(".totalLoss").text(loss);
+            $(".totalLossCount").text(response.losscount || 0);
+            $(".totalMemberFail").text(usersOffline);
+            $("#totaldeposits").text(recharges);
+            $("#successFullRechare").text(recharges);
+            $("#totalwithdrawals").text(withdraws);
+            $("#totalwithdrawal").text(withdraws);
+            $("#todayrecharge").text(rechargeToday);
+            $("#todaywithdrawal").text(withdrawToday);
+            
+            //  Fix: Properly update UI with pending values
+            $("#pendingwithdrawal").text(pendingwithdraw);
+            $("#pendingRecharge").text(pendingrecharge);
+
+            $(".plToday").html(pltoday);
+            $(".pl").html(pl);
+            $(".totalToday").html(recharges - withdraws);
+
+            if (rechargeToday - withdrawToday < 0) {
+                $(".totalTodays").removeClass("icon-bg").addClass("icon-bg-danger");
+            } else {
+                $(".totalTodays").addClass("icon-bg").removeClass("icon-bg-danger");
+            }
+        },
+        error: function (xhr, status, error) {
+            console.error("AJAX Request Failed:", status, error);
+        },
+    });
+});
+
+
+    $(".buff-three").click(function (e) {
+      e.preventDefault();
+      let select = $("#buff-three").val();
+      let money = $("#money-buff-three").val();
+      let phone = $("#phone2").val();
+      if (select && money) {
+        $.ajax({
+          type: "POST",
+          url: "/admin/manager/createBonus",
+          data: {
+            select: select,
+            type: "three",
+            money: money,
+            phone: phone,
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response.status == true) {
+              Swal.fire({
+                icon: "success",
+                title: `${response.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: `${response.message}`,
+              });
+            }
+          },
+        });
+      } else {
+        alert("Please enter complete information");
+      }
+    });
+
+    $(".buff-one").click(function (e) {
+      e.preventDefault();
+      let select = $("#buff-one").val();
+      let money = $("#money-buff-one").val();
+      let phone = $("#phone").val();
+      if (select && money) {
+        $.ajax({
+          type: "POST",
+          url: "/admin/manager/createBonus",
+          data: {
+            select: select,
+            type: "one",
+            money: money,
+            phone: phone,
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response.status == true) {
+              Swal.fire({
+                icon: "success",
+                title: `${response.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: `${response.message}`,
+              });
+            }
+          },
+        });
+      } else {
+        alert("Please enter complete information");
+      }
+    });
+
+    $(".buff-all").click(function (e) {
+      e.preventDefault();
+      let select = $("#buff-all-ctv").val();
+      let money = $("#money-buff-all").val();
+      if (select && money) {
+        $.ajax({
+          type: "POST",
+          url: "/admin/manager/createBonus",
+          data: {
+            select: select,
+            type: "all",
+            money: money,
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response.status == true) {
+              Swal.fire({
+                icon: "success",
+                title: `${response.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: `${response.message}`,
+              });
+            }
+          },
+        });
+      } else {
+        alert("Please enter complete information");
+      }
+    });
+
+    $(".create_ctv").click(function (e) {
+      e.preventDefault();
+      let username = $("#username").val().trim();
+      let password = $("#password").val().trim();
+      if (username && password) {
+        $.ajax({
+          type: "POST",
+          url: "/admin/manager/create/ctv",
+          data: {
+            username: username,
+            password: password,
+          },
+          dataType: "json",
+          success: function (response) {
+            if (response.status == true) {
+              Swal.fire({
+                icon: "success",
+                title: `${response.message}`,
+              });
+            } else {
+              Swal.fire({
+                icon: "error",
+                title: `${response.message}`,
+              });
+            }
+          },
+        });
+      } else {
+        Swal.fire({
+          icon: "error",
+          title: "Please enter complete information",
+        });
+      }
+    });
+  </script>
+</body>
+
+</html>
+
+
+
+
+

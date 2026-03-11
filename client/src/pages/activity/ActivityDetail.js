@@ -1,0 +1,217 @@
+import React, { useEffect } from "react";
+import { useSelector } from "react-redux";
+import { Link, useLocation, useNavigate } from "react-router-dom";
+import CustomeNavbar from "../../components/CustomeNavbar";
+
+const ActivityDetail = () => {
+  const { bannergetData } = useSelector((state) => state.user);
+  const navigate = useNavigate();
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const id = queryParams.get("id");
+
+  useEffect(() => {
+    window.scrollTo(0, 0);
+  }, []);
+
+
+const data = ["/img1.jpeg", "/img2.jpeg", "/img3.jpeg"];
+
+function getRandomImage() {
+  const randomIndex = Math.floor(Math.random() * data.length);
+  return data[randomIndex];
+}
+
+// Example usage:
+const randomImage = getRandomImage();
+  return (
+    <>
+      <CustomeNavbar name="Activity details" />
+      <div className="nav-bg">
+        {id == 2 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban2}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              {" "}
+              VIP bonus
+            </h3>
+            <h4
+              onClick={() => navigate("/vip")}
+              className="text-green-500 text-xs text-center underline mb-2 font-bold"
+            >
+              Click here for claim
+            </h4>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban22} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 3 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban3}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              💰 Member Activities Winning Streak 💰
+            </h3>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban33} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 4 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban4}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              AVIATOR ADDITIONAL BONUS
+            </h3>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban44} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 5 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban5}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              🔄 Loss bonus 🔄
+            </h3>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban55} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 6 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban6}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              Lucky 10 Days
+            </h3>
+
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban66} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 7 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban7}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              PARTNER REWARDS BONUS
+            </h3>
+            <div className="container-section">
+              <img src={randomImage} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 8 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban8}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              VIDEO CONTENT BONUS
+            </h3>
+
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban88} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 9 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban9}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              WEEKLY DEPOSIT BONUS FOR AGENT
+            </h3>
+            {/* <h4 className="text-center text-[#00ff00] mb-2 text-xs font-bold">
+              Click here to apply : Winning Streak Bonus
+            </h4> */}
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban99} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 10 && (
+          <div>
+            <img
+              src={"https://i.ibb.co/F4XqF9RJ/commissionchart-Front.png"}
+              alt=""
+              className="w-full"
+              loading="lazy"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              Commission Chart
+            </h3>
+            <div className="container-section">
+              <img
+                src={"https://i.ibb.co/dsjTQCmR/Whats-App-Image-2026-03-09-at-3-56-32-AM.jpg"}
+                alt=""
+              />
+            </div>
+          </div>
+        )}
+        {id == 11 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban101}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              Deposit 10% USDT Bonus
+            </h3>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban1012} alt="" />
+            </div>
+          </div>
+        )}
+        {id == 12 && (
+          <div>
+            <img
+              src={bannergetData?.activity?.ban105}
+              alt=""
+              className="w-full"
+            />
+            <h3 className="heading-h3 text-center mt-3 mb-1 text-whites font-medium">
+              PARTNER REWARDS BONUS
+            </h3>
+            <div className="container-section">
+              <img src={bannergetData?.activity?.ban1012} alt="" />
+            </div>
+          </div>
+        )}
+      </div>
+    </>
+  );
+};
+
+export default ActivityDetail;

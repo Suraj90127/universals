@@ -1,0 +1,485 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Withdraw Money</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+    integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+  </head>
+
+  <style>
+    body {
+      background-color: #f4f6f9;
+      color: #343a40;
+      font-family: "Source Sans Pro", sans-serif;
+    }
+
+    .content-wrapper {
+      background-color: #f8f9fa;
+      padding: 10px;
+      border-radius: 8px;
+      box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    }
+
+    h1 {
+      color: #343a40;
+      margin-bottom: 20px;
+    }
+
+    .card {
+      background-color: #ffffff;
+      color: #343a40;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      margin-bottom: 20px;
+    }
+
+    .card-header {
+      background-color: #ffffff;
+      border-bottom: 1px solid rgba(0, 0, 0, 0.125);
+      padding: 1rem;
+      border-top-left-radius: 10px;
+      border-top-right-radius: 10px;
+    }
+
+    .form-control {
+      background-color: #ffffff;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      color: #495057;
+    }
+
+    .form-control:focus {
+      border-color: #80bdff;
+      box-shadow: 0 0 0 0.2rem rgba(0, 123, 255, 0.25);
+    }
+
+    .btn-primary {
+      background-color: #605bff;
+      border-color: #605bff;
+
+      border-radius: 5px;
+      transition: background-color 0.3s ease;
+    }
+
+    .btn-primary:hover {
+      background-color: #4d49d7;
+      border-color: #4d49d7;
+    }
+
+    .table {
+      background-color: #ffffff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .table th,
+    .table td {
+      text-align: center;
+      vertical-align: middle;
+    }
+
+    tbody tr:nth-child(odd) {
+      background: #f3f2ff !important;
+    }
+
+    thead tr {
+      background-color: #605bff;
+    }
+
+    thead tr {
+      background-color: #605bff; /* Sets the background for the table header row */
+    }
+
+    thead th {
+      background-color: #605bff; /* Sets the background for individual header cells */
+      color: white; /* Optional: Set text color for better contrast */
+    }
+
+    .card-title {
+      color: #605bff;
+      font-size: 20px;
+      font-weight: bold;
+      margin-bottom: 10px;
+    }
+
+    .swal2-popup {
+      background-color: #ffffff;
+      color: #343a40;
+    }
+
+    .search-container {
+      margin-bottom: 20px;
+      margin-left: 10px;
+    }
+
+    .search-container input {
+      width: 300px;
+      padding: 10px;
+      border: 1px solid #ced4da;
+      border-radius: 5px;
+      margin-right: 10px;
+    }
+
+    .search-container button {
+      padding: 10px 20px;
+      border-radius: 5px;
+      background-color: #605bff;
+      color: white;
+      border: none;
+      transition: background-color 0.3s ease;
+    }
+
+    .search-container button:hover {
+      background-color: #4d49d7;
+    }
+
+    .search {
+      width: 800px;
+      height: 60px;
+      border: 2px solid #ced4da;
+      border-radius: 10px;
+      font-size: 16px;
+      color: #343a40;
+    }
+    .search:focus {
+      outline: none;
+      border-color: #605bff;
+      box-shadow: 0 0 4px rgba(0, 123, 255);
+    }
+  </style>
+
+  <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+      <%- include('nav') %>
+      <div class="content-wrapper">
+        <section class="content-header">
+          <div class="container-fluid">
+            <div class="row mb-2">
+              <div class="col-sm-6">
+                <h1
+                  class=""
+                  style="color: #605bff; font-size: 2rem; font-weight: bold"
+                >
+                  Approved Withdrawals
+                </h1>
+              </div>
+            </div>
+          </div>
+          <!-- /.container-fluid -->
+        </section>
+        <div class="search-container">
+          <label for="remark" class="form-label" style="color: #605bff"
+            >Remark</label
+          >
+          <input
+            type="text"
+            class="form-control search"
+            id="remark"
+            name="remark"
+            required
+            placeholder="Enter remark"
+          />
+        </div>
+        <!-- Main content -->
+        <section class="content">
+          <div class="card">
+            <div class="card-header">
+              <h3 class="card-title">Approve Withdrawal</h3>
+              <div class="card-tools">
+                <button
+                  type="button"
+                  class="btn btn-tool"
+                  data-card-widget="collapse"
+                  title="Collapse"
+                >
+                  <i class="fas fa-minus"></i>
+                </button>
+                <button
+                  type="button"
+                  class="btn btn-tool"
+                  data-card-widget="remove"
+                  title="Remove"
+                >
+                  <i class="fas fa-times"></i>
+                </button>
+              </div>
+            </div>
+            <div class="card-body p-0" style="overflow-y: hidden">
+              <table class="table table-striped projects">
+                <thead>
+                  <tr>
+                    <th class="text-center">#</th>
+                     <th class="text-center">orderid</th>
+                    <th class="text-center">Type</th>
+                    <th class="text-center">USDT Address</th>
+                    <th class="text-center">Account</th>
+                    <th class="text-center">Bank</th>
+                    <th class="text-center">Account Number</th>
+                    <th class="text-center">IFSC Code</th>
+                    <th class="text-center">UPI ID</th>
+                    <th class="text-center">Cardholder Name</th>
+                    <th class="text-center">Amount</th>
+                    <th class="text-center">Status</th>
+                    <th class="text-center">Date</th>
+                    <th class="text-center">Action</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <!-- Withdrawal data will be displayed here -->
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </section>
+      </div>
+    </div>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    <script>
+     
+    function show(params) {
+      console.log("params",params)
+      if (params.length == 0) {
+        $('tbody').html(`
+            <tr class="text-center">
+              <td colspan="7">No more data available...</td>
+            </tr>
+          `);
+        return;
+      }
+      let html = '';
+     let show = params.map((data) => {
+  html += `<tr class="text-center">
+            <td id="row-id-${data.userId}">
+              ${data.userId}
+            </td>
+               <td id="row-id-${data.id}">
+              ${data.id_order}
+            </td>
+            <td id="row-sdt-${data.id}">
+              <b>${data.type}</b>
+            </td>
+            <td id="row-usdt-${data.id}">
+              <b>${data.sdt}</b>
+            </td>
+            <td id="row-phone-${data.id}">
+              <b>${data.phone}</b>
+            </td>
+            <td id="row-name-bank-${data.id}">
+              <b>${data.name_bank}</b>
+            </td>
+            <td id="row-stk-${data.id}" style="min-width: 190px;">
+              <b>${data.stk}</b>
+            </td>
+            <td id="row-ifsc-${data.id}" style="min-width: 190px;">
+              <b>${data.ifsc !== '' && data.ifsc !== null ? data.ifsc : ''}</b>
+            </td>
+            <td id="row-ifsc-${data.upiId}" style="min-width: 190px;">
+              <b>${data.upiId !== '' && data.upiId !== null ? data.upiId : ''}</b>
+            </td>
+            <td id="row-name-user-${data.id}" style="min-width: 190px;">
+              <b>${data.name_user}</b>
+            </td>
+            <td id="row-money-${data.id}">
+              <b>${data.type=="USDT"? "$"+Number(data.money/94).toFixed(2):"₹"+data.money}</b>
+            </td>
+            <td class="project-state">
+              <span class="badge badge-warning">Waiting...</span>
+            </td>
+            <td id="row-today-${data.id}">
+              <b>${data.today}</b>
+            </td>
+            <td class="project-actions text-center" style="min-width: 160px;">
+              <!-- Approve -->
+               <a class="btn btn-primary btn-sm confirm-btn" href="/admin/member/info/${data.phone}" style="color:#605bff">
+              <i class="fa-solid fa-street-view"></i> View</a>
+              
+                            <a class="btn btn-info btn-sm copy-data" href="javascript:void(0)" data-id="${data.id}" style="color:#17a2b8">
+                <i class="fa fa-copy"></i>
+              </a>
+              
+              <a class="btn btn-success btn-sm confirm-btn" href="" data="${data.id}" style="color:green">
+                <i class="fa fa-check"></i>
+              </a>
+              <!-- Delete -->
+              <a class="btn btn-danger btn-sm delete-btn" href="" data="${data.id}" style="color:red">
+                <i class="fas fa-trash"></i>
+              </a>
+             
+              <a class="btn  ${data.verify==1?"btn-admin-approve":"btn-warning"} btn-sm" href="" data="${data.id}" style="color:red">
+               ${data.verify==1?"✅ ":"❌ "}
+                
+              </a>
+              
+              
+            </td>
+          </tr>`;
+})
+
+        $("tbody").html(html);
+        
+        
+         $('.btn-success').click(function (e) { 
+            e.preventDefault();
+            let id = $(this).attr('data');
+            $.ajax({
+              type: "POST",
+              url: "/api/webapi/admin/withdraw",
+              data: {
+                id: id,
+                type: 'confirm'
+              },
+              dataType: "json",
+              success: function (response) {
+                Swal.fire(
+                  'Good job!',
+                  'You clicked the button!',
+                  'success'
+                )
+                setTimeout(() => {
+                  location.reload();
+                }, 100);
+              }
+            });
+          });
+          
+          
+          $('.btn-admin-approve').click(function (e) { 
+            e.preventDefault();
+            let id = $(this).attr('data');
+            $.ajax({
+              type: "POST",
+              url: "/api/webapi/admin/withdraw",
+              data: {
+                id: id,
+                type: 'confirm-admin'
+              },
+              dataType: "json",
+              success: function (response) {
+                Swal.fire(
+                  'Good job!',
+                  'You clicked the button!',
+                  'success'
+                )
+                setTimeout(() => {
+                  location.reload();
+                }, 100);
+              }
+            });
+          });
+          
+          $('.btn-danger').click(function (e) { 
+            e.preventDefault();
+            let id = $(this).attr('data');
+            let remark = $("#remark").val();
+            console.log("object",remark)
+            $.ajax({
+              type: "POST",
+              url: "/api/webapi/admin/withdraw",
+              data: {
+                id: id,
+                type: 'delete',
+                remark:remark
+              },
+              dataType: "json",
+              success: function (response) {
+                setTimeout(() => {
+                  location.reload();
+                }, 100);
+                Swal.fire(
+                  'Good job!',
+                  'You clicked the button!',
+                  'success'
+                )
+              }
+            });
+          });
+     }
+     
+
+      $.ajax({
+        type: "POST",
+        url: "/api/webapi/admin/recharge?type=withdrawpending",
+        data: {},
+        dataType: "json",
+        success: function (response) {
+          show(response.datas3); // Added semicolon
+        },
+      });
+
+      // Event listener for the search input
+      $("#search").on("input", function () {
+        let value = $(this).val().toLowerCase();
+        $.ajax({
+          type: "POST",
+          url: "/api/webapi/admin/recharge?type=withdrawpending",
+          dataType: "json",
+          success: function (response) {
+            show(
+              response.datas3.filter((data) =>
+                data.id_order.toString().toLowerCase().includes(value)
+              )
+            ); // Filter and show data based on search input
+          },
+        });
+      });
+      
+      
+      
+      document.addEventListener('DOMContentLoaded', function() {
+  // Delegate the event to the document or a parent container
+  document.addEventListener('click', function(event) {
+  console.log("ddd")
+    // Check if the clicked element has the class 'copy-data'
+    if (event.target.closest('.copy-data')) {
+      const button = event.target.closest('.copy-data');
+      const id = button.getAttribute('data-id'); // Get the data-id value
+
+      // Extract data from the row
+      const sdt = document.getElementById(`row-sdt-${id}`).innerText.trim();
+      const usdt = document.getElementById(`row-usdt-${id}`).innerText.trim();
+      const phone = document.getElementById(`row-phone-${id}`).innerText.trim();
+      const nameBank = document.getElementById(`row-name-bank-${id}`).innerText.trim();
+      const stk = document.getElementById(`row-stk-${id}`).innerText.trim();
+      const ifsc = document.getElementById(`row-ifsc-${id}`).innerText.trim();
+      const nameUser = document.getElementById(`row-name-user-${id}`).innerText.trim();
+      const money = document.getElementById(`row-money-${id}`).innerText.trim();
+      const today = document.getElementById(`row-today-${id}`).innerText.trim();
+
+      // Concatenate all data into a string
+      const dataToCopy = `SDT: ${sdt}\nUSDT: ${usdt}\nPhone: ${phone}\nBank Name: ${nameBank}\nSTK: ${stk}\nIFSC: ${ifsc}\nUser Name: ${nameUser}\nMoney: ${money}\nToday: ${today}`;
+
+      // Copy the data to clipboard
+      navigator.clipboard.writeText(dataToCopy).then(() => {
+        alert('Data copied to clipboard');
+      }).catch(err => {
+        console.error('Failed to copy data: ', err);
+      });
+    }
+  });
+});
+    </script>
+  </body>
+</html>

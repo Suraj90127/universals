@@ -1,0 +1,459 @@
+
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Vip section</title>
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback"
+    />
+    <link rel="stylesheet" href="/plugins/fontawesome-free/css/all.min.css" />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css"
+    />
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"
+      integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA=="
+      crossorigin="anonymous"
+      referrerpolicy="no-referrer"
+    />
+    <link
+      href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css"
+      rel="stylesheet"
+    />
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css" />
+    <link rel="stylesheet" href="/css/admin.css" />
+     <!-- jQuery -->
+     <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+     <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+ 
+     <style>
+      body {
+        font-family: 'Source Sans Pro', Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9fafc;
+        color: #333;
+      }
+
+      .container {
+        max-width: 1200px;
+        margin: 20px auto;
+        padding: 20px;
+        background: white;
+        border-radius: 10px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      }
+
+      .tabs {
+        display: flex;
+        flex-wrap: wrap;
+        border-bottom: 2px solid #605bff;
+      }
+
+      .tab {
+        padding: 10px 20px;
+        cursor: pointer;
+        text-align: center;
+        flex: 1;
+        color: #605bff;
+        font-weight: bold;
+        transition: background 0.3s, color 0.3s;
+      }
+
+      .tab:hover {
+        background-color: #605bff;
+        color: white;
+      }
+
+      .tab.active {
+        background-color: #605bff;
+        color: white;
+      }
+
+      .tab-content {
+        display: none;
+        padding: 20px 0;
+      }
+
+      .tab-content.active {
+        display: block;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        overflow-x: auto;
+      }
+
+      th, td {
+        border: 1px solid #ddd;
+        padding: 10px;
+        text-align: center;
+      }
+
+      th {
+        background-color: #605bff;
+        color: white;
+        text-transform: uppercase;
+      }
+
+      td input {
+        width: 80%;
+        padding: 5px;
+        border: 1px solid #ddd;
+        border-radius: 5px;
+      }
+
+      .update-btn {
+        padding: 5px 10px;
+        background-color: #28a745;
+        color: white;
+        border: none;
+        border-radius: 5px;
+        cursor: pointer;
+        transition: background 0.3s;
+      }
+
+      .update-btn:hover {
+        background-color: #218838;
+      }
+
+      @media (max-width: 768px) {
+        .tabs {
+          flex-direction: column;
+        }
+
+        table {
+          display: block;
+          overflow-x: auto;
+        }
+
+        th, td {
+          font-size: 14px;
+          padding: 8px;
+        }
+
+        td input {
+          width: 100px;
+        }
+      }
+    </style>
+    
+  </head>
+  <body class="hold-transition sidebar-mini">
+    <div class="wrapper">
+      <!-- Include navigation -->
+      
+      <div class="wrapper">
+        <!-- Include navigation -->
+        <%- include('nav') %>
+        <div class="content-wrapper">
+          <section class="content-header">
+            <div class="container-fluid">
+              <div class="row mb-2">
+                <div class="col-sm-6">
+                  <h1 style="color: #605bff; font-size: 2rem; font-weight: bold;">Notification Record</h1>
+                </div>
+              </div>
+            </div>
+          </section>
+  
+          <!-- Main content -->
+          <section class="content">
+            <div class="container">
+              <div class="tabs">
+                <div class="tab active" data-tab="edit-levels">Edit Levels</div>
+                <div class="tab" data-tab="fetched-levels">Fetched Levels</div>
+              </div>
+  
+              <div id="edit-levels" class="tab-content active">
+                <h2>Edit Levels</h2>
+                <table>
+                  <thead>
+                    <tr>
+                      <th>Level</th>
+                      <th>Minimum Amount</th>
+                      <th>One-Time Bonus</th>
+                      <th>Awarded</th>
+                      <th>Monthly Bonus</th>
+                      <th>Rebate Percentage</th>
+                      <th>Sefe Percentage</th>
+                      <th>Update</th>
+                    </tr>
+                  </thead>
+                  <tbody id="levels-table-body">
+                    <!-- Data will be populated here dynamically -->
+                  </tbody>
+                </table>
+              </div>
+              <div id="fetched-levels" class="tab-content">
+                <h2>Fetched Levels</h2>
+                <p>Content for fetched levels will be displayed here.</p>
+              </div>
+            </div>
+          </section>
+        </div>
+      </div>
+
+
+      <script>
+        // Fetch and display the VIP data
+        async function fetchVipData() {
+          try {
+            const response = await fetch('/api/webapi/vip-data');
+            const responseData = await response.json(); // Convert response to JSON
+            console.log("object111111111", responseData);
+      
+            if (responseData.success) {
+              const data = responseData.data;
+              const tableBody = document.getElementById('levels-table-body');
+              tableBody.innerHTML = ''; // Clear existing rows
+      
+              data.forEach(item => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td>${item.level}</td>
+                  <td><input type="number" value="${item.amount}" data-id="${item.id}" class="amount"></td>
+                  <td><input type="number" value="${item.onetime}" data-id="${item.id}" class="onetime"></td>
+                  <td>${item.level}</td>
+                  <td><input type="number" value="${item.monthstime}" data-id="${item.id}" class="monthstime"></td>
+                  <td><input type="number" value="${item.rebet}" data-id="${item.id}" class="rebet"></td>
+                  <td><input type="number" value="${item.sefe}" data-id="${item.id}" class="sefe"></td>
+                  <td><button class="update-btn" data-id="${item.id}">Update</button></td>
+                `;
+                tableBody.appendChild(row);
+              });
+            } else {
+              Swal.fire('Error', 'Could not load data', 'error');
+            }
+          } catch (error) {
+            console.error('Error fetching data:', error);
+            Swal.fire('Error', 'Something went wrong', 'error');
+          }
+        }
+      
+        // Event listener for Update buttons
+        document.getElementById('levels-table-body').addEventListener('click', async (e) => {
+          if (e.target.classList.contains('update-btn')) {
+            const row = e.target.closest('tr');
+            const id = e.target.dataset.id;
+            const level = `level${row.querySelector('td').textContent}`;
+            const amount = row.querySelector('.amount').value;
+            const onetime = row.querySelector('.onetime').value;
+            const monthstime = row.querySelector('.monthstime').value;
+            const rebet = row.querySelector('.rebet').value;
+            const sefe = row.querySelector('.sefe').value;
+      
+            const updatedData = {
+              id,
+              level,
+              amount,
+              onetime,
+              monthstime,
+              rebet,
+              sefe
+            };
+      
+            try {
+              const response = await fetch('/api/webapi/set-vip-data', {
+                method: 'POST',
+                headers: {
+                  'Content-Type': 'application/json'
+                },
+                body: JSON.stringify(updatedData)
+              });
+
+              
+              // console.log("updatedData",updatedData)
+              const responseData = await response.json();
+      
+              if (responseData.status) {
+                Swal.fire('Success', 'Data updated successfully', 'success');
+              } else {
+                Swal.fire('Error', 'Failed to update data', 'error');
+              }
+            } catch (error) {
+              console.error('Error updating data:', error);
+              Swal.fire('Error', 'Something went wrong', 'error');
+            }
+          }
+        });
+      
+        // Initial fetch of data
+        fetchVipData();
+      </script>
+        
+  
+      <script>
+        // Fetch data on page load and populate the table
+        window.onload = async () => {
+          try {
+            const response = await axios.get('/api/webapi/vip-data');
+            if (response.data.success) {
+              const data = response.data.data;
+              const tbody = document.querySelector('#edit-levels tbody');
+              tbody.innerHTML = ''; // Clear existing rows
+      
+              data.forEach((item, index) => {
+                const row = document.createElement('tr');
+                row.innerHTML = `
+                  <td>${index + 1}</td>
+                  <td><input type="number" value="${item.amount}" data-id="${item.id}"></td>
+                  <td><input type="number" value="${item.onetime}" data-id="${item.id}"></td>
+                  <td>${item.level}</td>
+                  <td><input type="number" value="${item.monthstime}" data-id="${item.id}"></td>
+                  <td><input type="number" value="${item.rebet}" data-id="${item.id}"></td>
+                  <td><button class="update-btn" data-id="${item.id}">Update</button></td>
+                `;
+                tbody.appendChild(row);
+              });
+            }
+          } catch (error) {
+            console.error('Error fetching VIP data:', error);
+          }
+        };
+      
+        // Handle update button click
+        document.addEventListener('click', async (e) => {
+          if (e.target && e.target.classList.contains('update-btn')) {
+            const row = e.target.closest('tr');
+            const id = e.target.dataset.id;
+            const amount = row.querySelector('input[type="number"]:nth-child(2)').value;
+            const onetime = row.querySelector('input[type="number"]:nth-child(3)').value;
+            const monthstime = row.querySelector('input[type="number"]:nth-child(5)').value;
+            const rebet = row.querySelector('input[type="number"]:nth-child(6)').value;
+      
+            try {
+              const response = await axios.post('/api/webapi/set-vip-data', {
+                id,
+                amount,
+                onetime,
+                monthstime,
+                rebet,
+              });
+              
+              if (response.data.success) {
+                Swal.fire('Success', 'Data updated successfully', 'success');
+              } else {
+                Swal.fire('Error', 'Failed to update data', 'error');
+              }
+            } catch (error) {
+              console.error('Error updating data:', error);
+              Swal.fire('Error', 'An error occurred while updating data', 'error');
+            }
+          }
+        });
+      </script>
+      
+      <!-- <script>
+        const tabs = document.querySelectorAll('.tab');
+        const tabContents = document.querySelectorAll('.tab-content');
+  
+        tabs.forEach((tab) => {
+          tab.addEventListener('click', () => {
+            tabs.forEach((t) => t.classList.remove('active'));
+            tabContents.forEach((tc) => tc.classList.remove('active'));
+  
+            tab.classList.add('active');
+            document.getElementById(tab.getAttribute('data-tab')).classList.add('active');
+          });
+        });
+      </script> -->
+        
+   
+         <a id="back-to-tops" href="#" class="btn1 back-to-top" role="button" aria-label="Scroll to top">
+           <i class="fas fa-chevron-up"></i>
+         </a>
+    </div>
+   
+    </div>
+
+    
+
+    <!-- Include scripts -->
+    <!-- <script>
+      const tasks = [];
+      const sections = Array(8)
+        .fill(null)
+        .map((_, i) => ({
+          id: i + 1,
+          value: i === 7 ? "NA" : (i + 1) * 10,
+        }));
+
+      function toggleDropdown() {
+        const dropdown = document.getElementById("instructionsDropdown");
+        dropdown.style.display =
+          dropdown.style.display === "none" ? "block" : "none";
+      }
+
+      function addTask() {
+        const taskNumber = document.getElementById("taskNumber").value;
+        const spins = document.getElementById("spins").value;
+
+        if (taskNumber && spins) {
+          tasks.push({ id: tasks.length + 1, taskNumber, spins });
+          renderTasks();
+        } else {
+          alert("Please enter both Task Number and Number of Spins.");
+        }
+      }
+
+      function renderTasks() {
+        const taskList = document.getElementById("taskList");
+        taskList.innerHTML = tasks
+          .map(
+            (task) =>
+              `<div class="task-item">
+                <span>Task: ${task.taskNumber}</span>
+                <span>Spins: ${task.spins}</span>
+                <button onclick="deleteTask(${task.id})" class="button button-danger">
+                  <i class="fas fa-trash"></i> Delete
+                </button>
+              </div>`
+          )
+          .join("");
+      }
+
+      function deleteTask(id) {
+        const index = tasks.findIndex((task) => task.id === id);
+        if (index > -1) {
+          tasks.splice(index, 1);
+          renderTasks();
+        }
+      }
+
+      function renderSections() {
+        const sectionsContainer = document.getElementById("sections");
+        sectionsContainer.innerHTML = sections
+          .map(
+            (section) =>
+              `<div class="section-item">
+                <span>Section ${section.id}</span>
+                <input type="text" value="${section.value}" />
+              </div>`
+          )
+          .join("");
+      }
+
+      renderSections();
+    </script> -->
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+    
+  </body>
+</html>
+
+
+
+
+
+

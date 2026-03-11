@@ -1,0 +1,337 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Login Page</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0-beta3/css/all.min.css">
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <style>
+        body {
+            height: 100vh;
+            margin: 0;
+            font-family: 'Arial', sans-serif;
+            background: #f5f5f5;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+
+        .container {
+            width: 100%;
+            max-width: 400px;
+            padding: 30px;
+            background-color: #ffffff;
+            border-radius: 12px;
+            box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+            box-sizing: border-box;
+            color: #333;
+        }
+
+        .header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .back-button, .menu-button {
+            font-size: 24px;
+            color: #605bff;
+            text-decoration: none;
+        }
+
+        .logo {
+            width: 150px;
+        }
+
+        .login-box {
+            padding: 5px;
+        }
+
+        .login-box h2 {
+            font-size: 28px;
+            margin-bottom: 10px;
+            color: #333;
+        }
+
+        .login-box p {
+            font-size: 14px;
+            margin-bottom: 20px;
+            color: #666;
+        }
+
+        .login-phone-button {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            width: 100%;
+            background-color: #605bff;
+            color: #fff;
+            padding: 15px;
+            margin-bottom: 10px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-phone-button:hover {
+            background-color: #2428fc;
+        }
+
+        .login-phone-button i {
+            margin-right: 8px;
+            font-size: 20px;
+        }
+
+        form {
+            display: flex;
+            flex-direction: column;
+        }
+
+        label {
+            margin-bottom: 5px;
+            font-size: 14px;
+            font-weight: 600;
+            color: #333;
+        }
+
+        .input-group {
+            position: relative;
+            margin-bottom: 15px;
+        }
+
+        .input-group input {
+            width: 100%;
+            padding: 12px;
+            padding-right: 40px;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            box-sizing: border-box;
+            background-color: #f9f9f9;
+            color: #333;
+            font-size: 14px;
+        }
+
+        .input-group .dropdown, 
+        .input-group .show-password {
+            position: absolute;
+            top: 50%;
+            right: 10px;
+            transform: translateY(-50%);
+            cursor: pointer;
+            font-size: 18px;
+            color: #666;
+        }
+
+        .options {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 20px;
+        }
+
+        .options label {
+            display: flex;
+            align-items: center;
+            font-size: 14px;
+            color: #666;
+        }
+
+        .options label input {
+            margin-right: 5px;
+        }
+
+        .forgot-password {
+            font-size: 14px;
+            color: #605bff;
+            text-decoration: none;
+        }
+
+        .login-button, .register-button {
+            display: block;
+            width: 100%;
+            background-color: #605bff;
+            color: #fff;
+            padding: 15px;
+            border: none;
+            border-radius: 8px;
+            font-size: 16px;
+            font-weight: 600;
+            cursor: pointer;
+            margin-bottom: 10px;
+            transition: background-color 0.3s ease;
+        }
+
+        .login-button:hover, .register-button:hover {
+            background-color: #2428fc;
+        }
+
+        .register-button {
+            background-color: #6c5ce7;
+        }
+
+        .register-button:hover {
+            background-color: #5a4dcc;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <a href="#" class="back-button"><i class="fas fa-arrow-left"></i></a>
+            <h3>Admin Login</h3>
+            <div class="menu-button"><i class="fas fa-bars"></i></div>
+        </div>
+
+        <div class="login-box ">
+            <h2>Log in</h2>
+            <p>Please login with your phone number or e-mail. If you forget your password, please contact customer services.</p>
+
+            <button class="login-phone-button ">
+                <i class="fas fa-user"></i> Log in With Phone
+            </button>
+
+            <form>
+                <label for="phone">Phone Number</label>
+                <div class="input-group">
+                    <input type="text" id="phone" placeholder="Enter your phone number">
+                </div>
+
+                <label for="password">Password</label>
+                <div class="input-group">
+                    <input type="password" id="password" placeholder="Please Enter Your Password">
+                    <span class="show-password" onclick="togglePassword()"><i class="fas fa-eye"></i></span>
+                </div>
+
+                <div class="options">
+                    <label>
+                        <input type="checkbox" id="remember-me"> Remember Me
+                    </label>
+                    <a href="#" class="forgot-password">Forgot Password</a>
+                </div>
+
+            </form>
+            <button class="login-button">Login</button>
+        </div>
+    </div>
+
+    <script>
+        function togglePassword() {
+            var passwordField = document.getElementById("password");
+            var passwordIcon = document.querySelector(".show-password i");
+            if (passwordField.type === "password") {
+                passwordField.type = "text";
+                passwordIcon.classList.remove("fa-eye");
+                passwordIcon.classList.add("fa-eye-slash");
+            } else {
+                passwordField.type = "password";
+                passwordIcon.classList.remove("fa-eye-slash");
+                passwordIcon.classList.add("fa-eye");
+            }
+        }
+    </script>
+
+    <!-- api -->
+    <script>
+        function setCookie(cname, cvalue, exdays) {
+            const d = new Date();
+            d.setTime(d.getTime() + (exdays * 24 * 60 * 60 * 1000));
+            let expires = "expires=" + d.toUTCString();
+            document.cookie = cname + "=" + cvalue + ";" + expires + ";path=/";
+        }
+
+        function alertMess(text) {
+            let length = $('.alert-toast .msg').length;
+            if (length == 0) {
+                $('.alert-toast').append(
+                    `
+                    <div data-v-1dcba851="" class="msg">
+                        <div data-v-1dcba851="" class="msg-content" > ${text} </div>
+                    </div>
+                    `
+                );
+                setTimeout(() => {
+                    $('.msg').fadeOut();
+                    setTimeout(() => {
+                        $('.alert-toast .msg').remove();
+                    }, 100);
+                }, 1500);
+            }
+        }
+
+        function validateForm(username, password, text) {
+            if (!username || !password) {
+                alertMess(text);
+                return false;
+            } else {
+                return true;
+            }
+        }
+
+        $('button').click(async (e) => {
+            e.preventDefault();
+            let username = $('#phone').val().trim();
+            let password = $('#password').val().trim();
+
+            {
+                $('.van-overlay').fadeIn(10);
+                $.ajax({
+                    type: "POST",
+                    url: "/api/webapi/login-admin",
+                    data: {
+                        username: username,
+                        pwd: password,
+                    },
+                    dataType: "json",
+                    success: function (response) {
+                        if (response.status === true) {
+                            $('.van-overlay').fadeOut(300);
+                            $('.Loading').fadeIn(10);
+                            setCookie('token', response.token, 1);
+                            setCookie('auth', response.value, 1);
+                            // alertMess(response.message);
+                            setTimeout(() => {
+                                location.href = '/admin/manager/index';
+                            }, 500);
+                        } else {
+                            $('.van-overlay').fadeOut(300);
+                            alertMess(response.message);
+                        }
+                    }
+                });
+            }
+
+        });
+    </script>
+    <script>
+        let getWBody = $('.mian').width();
+
+        $('html').css('font-size', `${getWBody / 10}px`);
+        $('.van-tabbar .van-tabbar-item').css({
+            'transform': 'scale(0.9)',
+        });
+        $(window).resize(() => {
+            let getWBody = $('.mian').width();
+            $('html').css('font-size', `${getWBody / 10}px`);
+            $('.van-tabbar .van-tabbar-item').css({
+                'transform': 'scale(0.9)',
+            });
+        });
+        function showPass() {
+          var x = document.getElementById("passwordfield");
+          var y = document.getElementById("eyeicon");
+          if (x.type === "password") {
+            x.type = "text";
+            y.src="./index_files/eyeVisible-7bc1c956.png";
+          } else {
+            x.type = "password";
+            y.src="./index_files/eyeInvisible-2fa5c152.png";
+          }
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,378 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Admin Task Control</title>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Source+Sans+Pro:300,400,400i,700&display=fallback">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css" 
+          integrity="sha512-DTOQO9RWCH3ppGqcWaEA1BIZOC6xxalwEsw9c2QQeAIftl+Vegovlnee1c9QX4TctnWMn13TZye+giMm8e2LwA==" 
+          crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <link href="//cdn.jsdelivr.net/npm/@sweetalert2/theme-dark@4/dark.css" rel="stylesheet">
+    <link rel="stylesheet" href="/dist/css/adminlte.min.css">
+    <link rel="stylesheet" href="/css/admin.css">
+
+    <!-- jQuery -->
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="https://cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
+
+    <style>
+      body {
+        font-family: Arial, sans-serif;
+        margin: 0;
+        padding: 0;
+        background-color: #f9f9f9;
+        color: #333;
+      }
+
+      header {
+        color: #605bff;
+        padding: 15px;
+        font-size: 1.5rem;
+        width: 100%;
+      }
+
+      .container {
+        margin: 20px auto;
+        background: white;
+        border-radius: 10px;
+        padding: 20px;
+        box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      }
+
+      .popup-overlay {
+        display: none;
+        position: fixed;
+        top: 0;
+        left: 0;
+        width: 100%;
+        height: 100%;
+        background: rgba(0, 0, 0, 0.5);
+        justify-content: center;
+        align-items: center;
+        z-index: 1000;
+      }
+
+      .popup-content {
+        background: white;
+        padding: 20px;
+        border-radius: 5px;
+        width: 300px;
+      }
+
+      table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+      }
+
+      table th,
+      table td {
+        text-align: left;
+        padding: 10px;
+        border: 1px solid #ddd;
+      }
+
+      table th {
+        background-color: #605bff;
+        color: white;
+      }
+
+      .btn {
+        padding: 10px 15px;
+        border: none;
+        border-radius: 5px;
+        background-color: #605bff;
+        color: white;
+        cursor: pointer;
+      }
+
+      .btn:hover {
+        background-color: #4a45e3;
+      }
+
+      tbody tr:nth-child(even) {
+        background: #fafafb !important;
+      }
+
+      tbody tr:nth-child(odd) {
+        background: #f3f2ff !important;
+      }
+
+      .form-control{
+        padding: 5px;
+        width: 100px;
+      }
+    </style>
+  </head>
+
+  <body class="hold-transition sidebar-mini layout-fixed layout-navbar-fixed layout-footer-fixed">
+    <div class="wrapper">
+        <%- include('nav') %>
+        <div class="content-wrapper p-3">
+            <div class="row">
+                <div class="container-fluid">
+                    <header>Deposit Bonus</header>
+                    <div class="container">
+                        <form id="depositForm">
+                            <div class="card-body p-0" style="overflow-y: hidden">
+                                <table class="table table-striped projects" id="tableget">
+                                    <thead>
+                                        <tr>
+                                            <th class="text-center">S no.</th>
+                                            <th class="text-center">Amount</th>
+                                            <th class="text-center">Bonus</th>
+                                            <th class="text-center">Percentage set</th>
+                                            <th class="text-center">Recharge set</th>
+                                            <th class="text-center">Action</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                                <button type="button" class="btn btn-primary mt-3" id="addMoreBtn">Add More</button>
+                            </div>
+                            
+                            <div class="popup-overlay" id="popup" style="display: none; position: fixed;">
+                                <div class="popup-content">
+                                    <h4>Add New Entry</h4>
+                                    <label>Amount:</label>
+                                    <input type="text" id="amount" class="form-control mb-2" required />
+                                    <label>Bonus:</label>
+                                    <input type="text" id="bonus" class="form-control mb-2" required />
+                                    <label>Percentage Set:</label>
+                                    <select id="percentage" class="form-control mb-2">
+                                        <option value="0">DisActive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                    <label>Recharge Set:</label>
+                                    <select id="recharge" class="form-control mb-2">
+                                        <option value="0">DisActive</option>
+                                        <option value="1">Active</option>
+                                    </select>
+                                    <div class="d-flex justify-content-between">
+                                        <button type="button" class="btn btn-success" id="saveBtn">Save</button>
+                                        <button type="button" class="btn btn-danger" id="closeBtn">Close</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Include Bootstrap and AdminLTE -->
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+  <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/dist/js/adminlte.min.js"></script>
+  <script src="/js/admin/admin.js"></script>
+  <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+
+    <!-- Scripts -->
+    <script>
+      document.addEventListener("DOMContentLoaded", function () {
+      const tableBody = document.querySelector("#tableget tbody");
+
+            function fetchData() {
+                fetch("/api/webapi/getrecharge-bonus")
+                    .then(res => res.json())
+                    .then(data => {
+                        if (data.success) {
+                            tableBody.innerHTML = "";
+                            data.data.forEach((item, index) => {
+                                const row = document.createElement("tr");
+                                row.innerHTML = `
+                                    <td>${index + 1}</td>
+                                    <td><input type="text" value="${item.recAmount}" class="form-control recAmount" data-id="${item.id}" /></td>
+                                    <td><input type="text" value="${item.bonus}" class="form-control bonus" data-id="${item.id}" /></td>
+                                    <td>
+                                        <select class="form-control is_persent" data-id="${item.id}">
+                                            <option value="0" ${item.is_persent === "0" ? "selected" : ""}>DisActive</option>
+                                            <option value="1" ${item.is_persent === "1" ? "selected" : ""}>Active</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <select class="form-control is_fisrtrecharge" data-id="${item.id}">
+                                            <option value="0" ${item.is_fisrtrecharge === "0" ? "selected" : ""}>DisActive</option>
+                                            <option value="1" ${item.is_fisrtrecharge === "1" ? "selected" : ""}>Active</option>
+                                        </select>
+                                    </td>
+                                    <td>
+                                        <button class="btn bg-info btn-sm confirm-btn" data-id="${item.id}"><i class="fa-solid fa-arrows-rotate"></i></button>
+                                        <button class="btn btn-danger btn-sm delete-btn" data-id="${item.id}" data-url="/delete/item/${item.id}"><i class="fa-solid fa-trash-can"></i></button>
+                                    </td>
+                                `;
+                                tableBody.appendChild(row);
+                            });
+                        }
+                    })
+                    .catch(error => console.error("Error fetching data:", error));
+            }
+
+            $(document).on("click", ".confirm-btn", function () {
+                const id = $(this).data("id");
+                const recAmount = $(`.recAmount[data-id="${id}"]`).val();
+                const bonus = $(`.bonus[data-id="${id}"]`).val();
+                const is_persent = $(`.is_persent[data-id="${id}"]`).val();
+                const is_fisrtrecharge = $(`.is_fisrtrecharge[data-id="${id}"]`).val();
+
+                console.log("Updating ID:", id);
+                console.log("Rec Amount:", recAmount);
+                console.log("Bonus:", bonus);
+
+                fetch("/api/webapi/update-recharge-bonus", {
+                    method: "POST",
+                    headers: { "Content-Type": "application/json" },
+                    body: JSON.stringify({ id, recAmount, bonus, is_persent, is_fisrtrecharge })
+                })
+                .then(res => res.json())
+                .then(data => {
+                    if (data.success) {
+                        Swal.fire("Updated!", "Data updated successfully.", "success");
+                        fetchData();
+                    } else {
+                        Swal.fire("Error!", "Failed to update data.", "error");
+                    }
+                })
+                .catch(error => {
+                    Swal.fire("Error!", "An error occurred while updating data.", "error");
+                    console.error("Error:", error);
+                });
+            });
+
+            fetchData();
+            
+            
+            $(document).on("click", ".delete-btn", function () {
+                  const id = $(this).data("id");
+                  const deleteUrl = $(this).data("url"); // Define the deleteUrl here
+                  
+                  Swal.fire({
+                    title: "Are you sure?",
+                    text: "You won't be able to revert this!",
+                    icon: "warning",
+                    showCancelButton: true,
+                    confirmButtonColor: "#d33",
+                    cancelButtonColor: "#3085d6",
+                    confirmButtonText: "Yes, delete it!"
+                  }).then((result) => {
+                    if (result.isConfirmed) {
+                      axios
+                        .delete(deleteUrl)
+                        .then((response) => {
+                          if (response.data.success) {
+                            Swal.fire("Deleted!", "Your item has been deleted.", "success");
+                            fetchData(); // Refresh data
+                          } else {
+                            Swal.fire("Error!", "Could not delete item.", "error");
+                          }
+                        })
+                        .catch((error) => {
+                          console.error("Delete failed:", error);
+                          Swal.fire("Error!", "Could not delete item.", "error");
+                        });
+                    }
+                  });
+                });
+
+
+        // Delete Row Function
+        function deleteRow(event) {
+          const itemId = event.currentTarget.getAttribute("data-id");
+          const deleteUrl = event.currentTarget.getAttribute("data-url");
+
+          Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#d33",
+            cancelButtonColor: "#3085d6",
+            confirmButtonText: "Yes, delete it!",
+          }).then((result) => {
+            if (result.isConfirmed) {
+              axios
+                .delete(deleteUrl)
+                .then((response) => {
+                  if (response.data.success) {
+                    Swal.fire("Deleted!", "Your item has been deleted.", "success");
+                    fetchData(); // Refresh data
+                  } else {
+                    Swal.fire("Error!", "Could not delete item.", "error");
+                  }
+                })
+                .catch((error) => {
+                  console.error("Delete failed:", error);
+                  Swal.fire("Error!", "Could not delete item.", "error");
+                });
+            }
+          });
+        }
+
+        // Add More Button
+        document.getElementById("addMoreBtn").addEventListener("click", function () {
+          document.getElementById("popup").style.display = "flex";
+        });
+
+        // Close Popup
+        document.getElementById("closeBtn").addEventListener("click", function () {
+          document.getElementById("popup").style.display = "none";
+        });
+
+        // Save New Entry
+        document.getElementById("saveBtn").addEventListener("click", async function () {
+          const recAmount = document.getElementById("amount").value;
+          const bonus = document.getElementById("bonus").value;
+          const is_persent = document.getElementById("percentage").value;
+          const is_fisrtrecharge = document.getElementById("recharge").value;
+
+          if (!recAmount || !bonus) {
+            Swal.fire("Error!", "Please fill in all required fields.", "error");
+            return;
+          }
+
+          try {
+            const response = await fetch("/api/webapi/set-recharge-bonus", {
+              method: "POST",
+              headers: {
+                "Content-Type": "application/json",
+              },
+              body: JSON.stringify({
+                recAmount,
+                bonus,
+                is_persent,
+                is_fisrtrecharge,
+              }),
+            });
+
+            const result = await response.json();
+
+            if (result.success) {
+              Swal.fire("Success!", "Data added successfully!", "success");
+              fetchData(); // Refresh data
+              document.getElementById("popup").style.display = "none";
+            } else {
+              Swal.fire("Error!", result.message || "Failed to add data.", "error");
+            }
+          } catch (error) {
+            Swal.fire("Error!", "An error occurred while saving data.", "error");
+            console.error("Error:", error);
+          }
+        });
+
+        // Fetch data on page load
+        fetchData();
+      });
+    </script>
+    <script src="/plugins/jquery/jquery.min.js"></script>
+    <script src="/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+    <script src="/dist/js/adminlte.min.js"></script>
+    <script src="/js/admin/admin.js"></script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11/dist/sweetalert2.min.js"></script>
+  </body>
+</html>

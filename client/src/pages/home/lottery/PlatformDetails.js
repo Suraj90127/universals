@@ -1,0 +1,143 @@
+import React from "react";
+
+import Img2 from "../../../assets/icons/1.svg";
+import Img4 from "../../../assets/icons/2.svg";
+import Img5 from "../../../assets/icons/3.svg";
+import Img6 from "../../../assets/icons/4.png";
+import Img7 from "../../../assets/icons/5.svg";
+import Img8 from "../../../assets/icons/6.svg";
+import { useSelector } from "react-redux";
+
+// Array of partner data
+const partners = [
+  { name: "Microgaming", img: Img2 },
+
+  { name: "Evolution", img: Img4 },
+  { name: "JILI", img: Img5 },
+  { name: "AG", img: Img6 },
+  { name: "AG", img: Img7 },
+  { name: "AG", img: Img8 },
+];
+
+const PlatformDetails = () => {
+  const { bannergetData } = useSelector((state) => state.user);
+  return (
+    <div className="p-4 m-4 bg-blues flex flex-col items-center rounded ">
+      {/* Header */}
+      <div className="flex space-x-5 gap-8 items-center w-full h-auto max-w-xl mb-6 ">
+        <img
+          src={bannergetData?.gameall?.logo}
+          alt="Logo"
+          className=" h-auto mb-2 w-40"
+        />
+        <div className="flex items-center space-x-3">
+          <span className="flex items-center justify-center w-12 h-12 rounded-full  text-red-500 font-bold text-lg border-red-500 border-2">
+            18+
+          </span>
+        </div>
+      </div>
+
+      {/* Partners */}
+      <div className="grid grid-cols-3 gap-6 mb-6 max-w-xl">
+        {partners.map((partner, index) => (
+          <div
+            key={index}
+            className="bgs-body p-2 flex justify-center items-center w-full rounded-md"
+          >
+            <img
+              src={partner.img}
+              alt={partner.name}
+              className={`h-10 w-40 ${index === 3 ? "invert-0" : ""}`}
+            />
+          </div>
+        ))}
+      </div>
+
+      {/* Description */}
+      <div className="text-xs text-whites font-sm space-y-2 max-w-xl">
+        <p className="flex items-start gap-1">
+          <span>
+            <svg
+              data-v-ca43e9bb=""
+              width="8"
+              height="8"
+              viewBox="0 0 11 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                data-v-ca43e9bb=""
+                x="5.65625"
+                width="8"
+                height="8"
+                rx="1"
+                transform="rotate(45 5.65625 0)"
+                fill="#c4933f"
+              ></rect>
+            </svg>
+          </span>{" "}
+          The platform advocates fairness, justice, and openness. We mainly
+          operate fair lottery, blockchain games, live casinos, and slot machine
+          games.
+        </p>
+        <p className="flex items-start gap-1">
+          <span>
+            <svg
+              data-v-ca43e9bb=""
+              width="8"
+              height="8"
+              viewBox="0 0 11 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                data-v-ca43e9bb=""
+                x="5.65625"
+                width="8"
+                height="8"
+                rx="1"
+                transform="rotate(45 5.65625 0)"
+                fill="#c4933f"
+              ></rect>
+            </svg>
+          </span>{" "}
+          aaladin works with more than 10,000 online live game dealers and slot
+          games, all of which are verified fair games.
+        </p>
+        <p className="flex items-start gap-1">
+          <span>
+            <svg
+              data-v-ca43e9bb=""
+              width="8"
+              height="8"
+              viewBox="0 0 11 11"
+              fill="none"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <rect
+                data-v-ca43e9bb=""
+                x="5.65625"
+                width="8"
+                height="8"
+                rx="1"
+                transform="rotate(45 5.65625 0)"
+                fill="#c4933f"
+              ></rect>
+            </svg>
+          </span>{" "}
+          aaladin supports fast deposit and withdrawal and looks forward to your
+          visit.
+        </p>
+        <br />
+        <p className="text-[#c4933f]">
+          Gambling can be addictive, please play rationally.
+        </p>
+        <p className="text-[#c4933f]">
+          aaladin only accepts customers above the age of 18.
+        </p>
+      </div>
+    </div>
+  );
+};
+
+export default PlatformDetails;

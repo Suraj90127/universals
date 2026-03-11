@@ -1,0 +1,21 @@
+# dependencies
+/node_modules
+client/node_modules
+
+# build
+/dist
+/build
+
+# logs
+*.log
+controllers/*.log
+
+# env
+.env
+.env.local
+.env.*
+
+# misc
+.DS_Store
+coverage
+allfiles.txt
