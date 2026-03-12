@@ -29,16 +29,25 @@ const isNumber = (params) => {
   return pattern.test(params);
 };
 
+// const ipAddress = (req) => {
+//   let ip = "";
+//   if (req.headers["x-forwarded-for"]) {
+//     ip = req.headers["x-forwarded-for"].split(",")[0];
+//   } else if (req.connection && req.connection.remoteAddress) {
+//     ip = req.connection.remoteAddress;
+//   } else {
+//     ip = req.ip;
+//   }
+//   return ip;
+// };
+
 const ipAddress = (req) => {
-  let ip = "";
-  if (req.headers["x-forwarded-for"]) {
-    ip = req.headers["x-forwarded-for"].split(",")[0];
-  } else if (req.connection && req.connection.remoteAddress) {
-    ip = req.connection.remoteAddress;
-  } else {
-    ip = req.ip;
-  }
-  return ip;
+  return (
+    req.headers["x-forwarded-for"]?.split(",")[0] ||
+    req.headers["x-real-ip"] ||
+    req.socket.remoteAddress ||
+    req.ip
+  );
 };
 
 const timeCreate = () => {
@@ -302,6 +311,7 @@ const register = async (req, res) => {
   let name_user = "Member" + randomNumber(10000, 99999);
   let code =  randomNumber(10000, 99999);
   let ip = ipAddress(req);
+  ip = ip.replace("::ffff:", "");
   let time = timeCreate();
 
   if (!username || !pwd) {

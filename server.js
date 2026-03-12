@@ -98,6 +98,7 @@ app.use((req, res, next) => {
 });
 
 // Middleware setup
+app.set("trust proxy", true);
 app.use(cookieParser());
 app.use(express.urlencoded({ extended: true }));
 app.use(express.json());
