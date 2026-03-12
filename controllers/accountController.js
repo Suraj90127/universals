@@ -363,6 +363,9 @@ const register = async (req, res) => {
              });
     }
 
+    console.log("check_ip",check_ip);
+    
+
     if (check_u.length == 1 && check_u[0].veri == 1) {
       return res.status(200).json({
         message: "Registered phone number",
