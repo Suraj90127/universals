@@ -93,6 +93,7 @@ import PaymentPageUsdt2 from "./pages/wallet/PaymentPageUsdt2";
 import P2PWallet from "./pages/wallet/P2PWallet";
 import P2PTransfers from "./pages/wallet/P2PTransfers";
 import AddUpi from "./pages/wallet/AddUpi";
+import TelegramPage from "./pages/home/TelegramPage";
 
 function AppComponent () {
 
@@ -144,6 +145,7 @@ function AppComponent () {
         <div className="root-main">
           <Routes>
             <Route path="/" element={<Home />} />
+            <Route path="/telegram" element={<TelegramPage />} />
             {/* <Route path="/" element={<MaintenancePage/>} /> */}
 
     
