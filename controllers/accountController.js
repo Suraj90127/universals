@@ -354,6 +354,8 @@ const register = async (req, res) => {
       "SELECT * FROM users WHERE ip_address = ? ",
       [ip]
     );
+
+     console.log("check_ip",check_ip);
     
     if (check_ip.length >= 1) {
              return res.status(200).json({
@@ -363,7 +365,7 @@ const register = async (req, res) => {
              });
     }
 
-    console.log("check_ip",check_ip);
+   
     
 
     if (check_u.length == 1 && check_u[0].veri == 1) {
