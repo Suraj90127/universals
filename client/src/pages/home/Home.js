@@ -164,13 +164,64 @@ const Home = () => {
             }
           }}
         >
-          <img src={WheelSpinImg} alt="Service" className="w-20" />
+          <img src={WheelSpinImg} alt="Service" className="w-14" />
         </div>
 
         {/* 🔗 Telegram (Open Always) */}
-        <Link to={userInfo?.telegram} style={{ display: "inline-block" }}>
-          <img src="/telegram.png" alt="Service" className="w-20" />
-        </Link>
+        {/* <Link to={userInfo?.telegram} style={{ display: "inline-block" }}>
+          <img src="/telegram.png" alt="Service" className="w-14" />
+        </Link> */}
+       <div className="relative inline-block group">
+  {/* Telegram Button */}
+  <button className="relative flex items-center justify-center w-14 h-14 hover:shadow-xl transform hover:scale-105 transition-all duration-300 group">
+    <img 
+      src="/telegram.png" 
+      alt="Telegram" 
+      className="w-14" 
+    />
+    
+    {/* Notification Badge */}
+    {/* <span className="absolute -top-1 -right-1 w-4 h-4 bg-red-500 border-2 border-white rounded-full"></span> */}
+  </button>
+
+  {/* Dropdown Menu */}
+  <div className="hidden group-hover:block absolute -top-5 right-14 w-40 overflow-hidden animate-fadeIn">
+
+    {/* Links */}
+    <div className="py-2 space-y-1">
+      <Link
+        to={userInfo?.telegram}
+        className="flex items-center p-2 text-gray-700 bg-white rounded-lg hover:bg-blue-50 transition-all duration-200 group/link"
+      >
+        <div className=" bg-blue-100 rounded-lg flex items-center justify-center mr-3 group-hover/link:bg-blue-200 transition-colors">
+          <svg className="w-4 h-4 text-blue-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm5 8h-2v2h-2v-2h-2v-2h2V6h2v2h2v2z"/>
+          </svg>
+        </div>
+        <div>
+          <p className="font-medium text-sm">Official Group</p>
+         
+        </div>
+      </Link>
+
+      <Link
+        to={"https://t.me/OfficialGameAgent"}
+        className="flex items-center p-2 text-gray-700 bg-white rounded-lg hover:bg-blue-50 transition-all duration-200 border-gray-100 group/link"
+      >
+        <div className=" bg-green-100 rounded-lg flex items-center justify-center mr-3 group-hover/link:bg-green-200 transition-colors">
+          <svg className="w-4 h-4 text-green-600" fill="currentColor" viewBox="0 0 24 24">
+            <path d="M20 4H4c-1.1 0-2 .9-2 2v12c0 1.1.9 2 2 2h16c1.1 0 2-.9 2-2V6c0-1.1-.9-2-2-2zm0 4l-8 5-8-5V6l8 5 8-5v2z"/>
+          </svg>
+        </div>
+        <div>
+          <p className="font-medium text-sm">Teacher Link</p>
+          {/* <p className="text-xs text-gray-500">Get guidance</p> */}
+        </div>
+      </Link>
+    </div>
+  </div>
+</div>
+        
       </div>
 
       {showPopup && (
