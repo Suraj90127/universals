@@ -355,13 +355,13 @@ const register = async (req, res) => {
       [ip]
     );
     
-    if (check_ip.length >= 1) {
-             return res.status(200).json({
-                 message: 'Ip already Registered',
-                 error:"Ip already Registered ",
-                 status: false
-             });
-    }
+    // if (check_ip.length >= 1) {
+    //          return res.status(200).json({
+    //              message: 'Ip already Registered',
+    //              error:"Ip already Registered ",
+    //              status: false
+    //          });
+    // }
 
     if (check_u.length == 1 && check_u[0].veri == 1) {
       return res.status(200).json({
