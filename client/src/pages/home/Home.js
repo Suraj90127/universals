@@ -190,7 +190,7 @@ const Home = () => {
     {/* Links */}
     <div className="py-2 space-y-1">
       <Link
-        to={userInfo?.telegram}
+        to={"https://t.me/OfficialGameAgent"}
         className="flex items-center p-2 text-gray-700 bg-white rounded-lg hover:bg-blue-50 transition-all duration-200 group/link"
       >
         <div className=" bg-blue-100 rounded-lg flex items-center justify-center mr-3 group-hover/link:bg-blue-200 transition-colors">
