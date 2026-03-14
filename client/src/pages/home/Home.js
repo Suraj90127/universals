@@ -168,9 +168,9 @@ const Home = () => {
         </div>
 
         {/* 🔗 Telegram (Open Always) */}
-       <Link to="/telegram" style={{ display: "inline-block" }}>
+       {/* <Link to="/telegram" style={{ display: "inline-block" }}>
           <img src="/telegram.png" alt="Service" className="w-20" />
-        </Link>
+        </Link> */}
         
       </div>
 
