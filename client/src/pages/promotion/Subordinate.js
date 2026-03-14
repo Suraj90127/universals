@@ -7,6 +7,9 @@ import EmptyData from "../activity/EmptyData";
 export default function Subordinate() {
   const { newSubordinateData } = useSelector((state) => state.promotion);
 
+  // console.log("newSubordinateData",newSubordinateData);
+  
+
   const [activeTabs, setActiveTabs] = useState("today");
 
   const dispatch = useDispatch();
@@ -49,6 +52,7 @@ export default function Subordinate() {
   };
 
   const filteredData = filterByDate(newSubordinateData, activeTabs);
+
 
   useEffect(() => {
     dispatch(newSubordinate());

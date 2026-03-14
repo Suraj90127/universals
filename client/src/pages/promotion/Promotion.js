@@ -28,6 +28,9 @@ const Promotion = () => {
   const { promotionsData, totalCommissionData } = useSelector(
     (state) => state.promotion
   );
+
+  console.log("promotionsData",promotionsData);
+  
   const { userInfo } = useSelector((state) => state.auth);
 
   const [copyPopup, setCopyPopup] = useState(false);

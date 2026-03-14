@@ -316,7 +316,7 @@ const initWebRouter = (app) => {
   
   
   
-   router.get("/api/webapi/promotioncron", commissionController.promotion);
+ router.get("/api/webapi/promotioncron", commissionController.promotion);
  router.get("/api/webapi/downlinerecharge_newcron", commissionController.downlinerecharge_new); 
  router.get("/api/webapi/tradeCommissioncron", winGoController.tradeCommission); 
 

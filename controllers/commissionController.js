@@ -515,6 +515,9 @@ const downlinerecharge_new = async (req, res) => {
   );
 };
 
+// promotion()
+// downlinerecharge_new()
+
 
 module.exports = {
     promotion,

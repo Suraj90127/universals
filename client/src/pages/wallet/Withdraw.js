@@ -321,7 +321,7 @@ const Withdraw = () => {
                     type="number"
                     className="w-full  bgs-body  p-2  ps-6 flex items-center  focus:outline-none text-blue placeholder:text-sm placeholder:text-[#d9ac4f]"
                     placeholder="Please enter USDT amount"
-                    value={Number(Number(amount) / 94).toFixed(2)}
+                    value={Number(Number(amount) / 95).toFixed(2)}
                     onChange={(e) => setAmount(e.target)}
                   />
                 </div>

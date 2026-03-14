@@ -6635,6 +6635,10 @@ const promotionNew = async (req, res) => {
     // Format the date as YYYY-MM-DD
     const currentDate = previousDate.toISOString().slice(0, 10);
 
+    // console.log("currentDate",currentDate);
+    // console.log("userInfo.phone",userInfo.phone);
+    
+
     // Query to select today's deposits for each user
     const [promotion_data] = await connection.query(
       "SELECT * FROM `promotion_data` WHERE phone = ? AND date(date) = ? ",
@@ -6642,6 +6646,9 @@ const promotionNew = async (req, res) => {
     );
 
     const data = promotion_data[0] || {};
+
+    // console.log("data",data);
+    
 
     return res.status(200).json({
       message: "Receive success",
@@ -6677,10 +6684,176 @@ const promotionNew = async (req, res) => {
   }
 };
 
+// const fetchPromotionDataUser = async (req, res) => {
+//   const { date } = req.body;
+//   console.log("date",date);
+  
+//   const auth = req.cookies.auth;
+
+//   if (!auth) {
+//     return res.status(401).json({
+//       message: "Unauthorized",
+//       status: false,
+//       timeStamp: new Date().getTime(),
+//     });
+//   }
+
+//   try {
+//     const [user] = await connection.query(
+//       "SELECT `phone`, `code` FROM users WHERE `token` = ?",
+//       [auth]
+//     );
+
+//     if (!user.length) {
+//       return res.status(401).json({
+//         message: "Unauthorized user",
+//         status: false,
+//         timeStamp: new Date().getTime(),
+//       });
+//     }
+
+//     const userInfo = user[0];
+
+//     const [promotionData] = await connection.query(
+//       `SELECT total_first_recharge_count, total_recharge_count, total_recharge_amount, 
+//               total_bet_count, total_bet_amount, better_number, downline_user, 
+//               first_deposit_amount, p2p_count, p2p_amount
+//        FROM downline_summary
+//        WHERE phone = ? AND date = ?
+//        ORDER BY id DESC LIMIT 1`,
+//       [userInfo.phone, date]
+//     );
+
+//     if (!promotionData.length) {
+//       return res.status(404).json({
+//         message: "Promotion data not found",
+//         status: false,
+//         timeStamp: new Date().getTime(),
+//       });
+//     }
+
+//     const downlineUserData = JSON.parse(promotionData[0].downline_user || "[]");
+//     const userIds = downlineUserData.map((u) => u.userId);
+
+//     console.log("userIds",userIds);
+    
+
+//     if (!userIds.length) {
+//       return res.status(404).json({
+//         message: "No downline users found",
+//         status: false,
+//         timeStamp: new Date().getTime(),
+//       });
+//     }
+
+//     // Pull recharges + p2p details
+//     const [downlineRecharges] = await connection.query(
+//       `SELECT userId, totalBetAmount, totalRechargeAmount, deposits_count, bet_count, 
+//               dates, DATE(dates) AS formatdate, first_deposit_amount, 
+//               p2p_count, p2p_amount
+//        FROM downline_recharges
+//        WHERE userId IN (?) AND DATE(dates) = ?
+//          AND (totalBetAmount > 0 OR totalRechargeAmount > 0 OR p2p_amount > 0)`,
+//       [userIds, date]
+//     );
+
+//     // console.log("downlineRecharges", downlineRecharges);
+    
+
+//     const [level] = await connection.query("SELECT * FROM level");
+
+//     const commissionRates = {
+//       1: level[0]?.f1 / 100 || 0,
+//       2: level[1]?.f1 / 100 || 0,
+//       3: level[2]?.f1 / 100 || 0,
+//       4: level[3]?.f1 / 100 || 0,
+//       5: level[4]?.f1 / 100 || 0,
+//       6: level[5]?.f1 / 100 || 0,
+//     };
+
+//     const downlineUserMap = Object.fromEntries(
+//       downlineUserData.map((u) => [u.userId, u.level])
+//     );
+
+//     const commissions = downlineRecharges.map((u) => {
+//       const level = downlineUserMap[u.userId] || 0;
+//       const commission = u.totalBetAmount * (commissionRates[level] || 0);
+//       return {
+//         userId: u.userId,
+//         level,
+//         totalBetAmount: u.totalBetAmount,
+//         totalRechargeAmount: u.totalRechargeAmount,
+//         p2p_amount: parseFloat(u.p2p_amount || 0),
+//         p2p_count: parseInt(u.p2p_count || 0),
+//         dates: u.formatdate,
+//         first_deposit_amount: parseFloat(u.first_deposit_amount || 0),
+//         commission: commission.toFixed(2),
+//       };
+//     });
+
+//     const levelTotals = downlineRecharges.reduce((acc, u) => {
+//       const level = downlineUserMap[u.userId] || 0;
+//       if (!acc[level]) {
+//         acc[level] = {
+//           totalBetAmount: 0,
+//           totalRechargeAmount: 0,
+//           total_bet_count: 0,
+//           total_recharge_count: 0,
+//           total_first_recharge_count: 0,
+//           better_number: 0,
+//           first_deposit_amount: 0,
+//           p2p_count: 0,
+//           p2p_amount: 0,
+//         };
+//       }
+//       acc[level].total_bet_count += parseFloat(u.bet_count) || 0;
+//       acc[level].total_recharge_count += parseFloat(u.deposits_count) || 0;
+//       acc[level].totalBetAmount += parseFloat(u.totalBetAmount) || 0;
+//       acc[level].totalRechargeAmount += parseFloat(u.totalRechargeAmount) || 0;
+//       acc[level].first_deposit_amount += parseFloat(u.first_deposit_amount) || 0;
+//       acc[level].p2p_count += parseInt(u.p2p_count) || 0;
+//       acc[level].p2p_amount += parseFloat(u.p2p_amount) || 0;
+
+//       if (parseFloat(u.first_deposit_amount) > 0)
+//         acc[level].total_first_recharge_count++;
+//       if (parseFloat(u.totalBetAmount) > 0) acc[level].better_number++;
+
+//       return acc;
+//     }, {});
+
+//     // --- Fix: Aggregate p2p totals into main data ---
+//     const totalP2P = Object.values(levelTotals).reduce(
+//       (acc, cur) => {
+//         acc.p2p_count += cur.p2p_count;
+//         acc.p2p_amount += cur.p2p_amount;
+//         return acc;
+//       },
+//       { p2p_count: 0, p2p_amount: 0 }
+//     );
+
+//     const { downline_user, ...cleanPromotionData } = promotionData[0];
+//     cleanPromotionData.p2p_count = totalP2P.p2p_count;
+//     cleanPromotionData.p2p_amount = totalP2P.p2p_amount;
+
+//     return res.status(200).json({
+//       data: cleanPromotionData,
+//       levelData: levelTotals,
+//       status: true,
+//       message: "Promotion data retrieved",
+//       userData: commissions,
+//     });
+//   } catch (error) {
+//     console.error("Error fetching promotion data:", error);
+//     return res.status(500).json({
+//       message: "Internal server error",
+//       status: false,
+//       timeStamp: new Date().getTime(),
+//     });
+//   }
+// };
+
 const fetchPromotionDataUser = async (req, res) => {
   const { date } = req.body;
-  console.log("date",date);
-  
   const auth = req.cookies.auth;
 
   if (!auth) {
@@ -6692,8 +6865,9 @@ const fetchPromotionDataUser = async (req, res) => {
   }
 
   try {
+
     const [user] = await connection.query(
-      "SELECT `phone`, `code` FROM users WHERE `token` = ?",
+      "SELECT phone, code FROM users WHERE token = ?",
       [auth]
     );
 
@@ -6717,41 +6891,33 @@ const fetchPromotionDataUser = async (req, res) => {
       [userInfo.phone, date]
     );
 
-    if (!promotionData.length) {
-      return res.status(404).json({
-        message: "Promotion data not found",
-        status: false,
-        timeStamp: new Date().getTime(),
-      });
+    const promotionRow = promotionData?.[0] || {};
+
+    let downlineUserData = [];
+
+    try {
+      downlineUserData = JSON.parse(promotionRow.downline_user || "[]");
+    } catch (err) {
+      downlineUserData = [];
     }
 
-    const downlineUserData = JSON.parse(promotionData[0].downline_user || "[]");
     const userIds = downlineUserData.map((u) => u.userId);
 
-    console.log("userIds",userIds);
-    
+    let downlineRecharges = [];
 
-    if (!userIds.length) {
-      return res.status(404).json({
-        message: "No downline users found",
-        status: false,
-        timeStamp: new Date().getTime(),
-      });
+    if (userIds.length) {
+      const [rows] = await connection.query(
+        `SELECT userId, totalBetAmount, totalRechargeAmount, deposits_count, bet_count, 
+                dates, DATE(dates) AS formatdate, first_deposit_amount, 
+                p2p_count, p2p_amount
+         FROM downline_recharges
+         WHERE userId IN (?) AND DATE(dates) = ?
+           AND (totalBetAmount > 0 OR totalRechargeAmount > 0 OR p2p_amount > 0)`,
+        [userIds, date]
+      );
+
+      downlineRecharges = rows;
     }
-
-    // Pull recharges + p2p details
-    const [downlineRecharges] = await connection.query(
-      `SELECT userId, totalBetAmount, totalRechargeAmount, deposits_count, bet_count, 
-              dates, DATE(dates) AS formatdate, first_deposit_amount, 
-              p2p_count, p2p_amount
-       FROM downline_recharges
-       WHERE userId IN (?) AND DATE(dates) = ?
-         AND (totalBetAmount > 0 OR totalRechargeAmount > 0 OR p2p_amount > 0)`,
-      [userIds, date]
-    );
-
-    // console.log("downlineRecharges", downlineRecharges);
-    
 
     const [level] = await connection.query("SELECT * FROM level");
 
@@ -6771,6 +6937,7 @@ const fetchPromotionDataUser = async (req, res) => {
     const commissions = downlineRecharges.map((u) => {
       const level = downlineUserMap[u.userId] || 0;
       const commission = u.totalBetAmount * (commissionRates[level] || 0);
+
       return {
         userId: u.userId,
         level,
@@ -6785,7 +6952,9 @@ const fetchPromotionDataUser = async (req, res) => {
     });
 
     const levelTotals = downlineRecharges.reduce((acc, u) => {
+
       const level = downlineUserMap[u.userId] || 0;
+
       if (!acc[level]) {
         acc[level] = {
           totalBetAmount: 0,
@@ -6799,6 +6968,7 @@ const fetchPromotionDataUser = async (req, res) => {
           p2p_amount: 0,
         };
       }
+
       acc[level].total_bet_count += parseFloat(u.bet_count) || 0;
       acc[level].total_recharge_count += parseFloat(u.deposits_count) || 0;
       acc[level].totalBetAmount += parseFloat(u.totalBetAmount) || 0;
@@ -6809,12 +6979,14 @@ const fetchPromotionDataUser = async (req, res) => {
 
       if (parseFloat(u.first_deposit_amount) > 0)
         acc[level].total_first_recharge_count++;
-      if (parseFloat(u.totalBetAmount) > 0) acc[level].better_number++;
+
+      if (parseFloat(u.totalBetAmount) > 0)
+        acc[level].better_number++;
 
       return acc;
+
     }, {});
 
-    // --- Fix: Aggregate p2p totals into main data ---
     const totalP2P = Object.values(levelTotals).reduce(
       (acc, cur) => {
         acc.p2p_count += cur.p2p_count;
@@ -6824,19 +6996,32 @@ const fetchPromotionDataUser = async (req, res) => {
       { p2p_count: 0, p2p_amount: 0 }
     );
 
-    const { downline_user, ...cleanPromotionData } = promotionData[0];
-    cleanPromotionData.p2p_count = totalP2P.p2p_count;
-    cleanPromotionData.p2p_amount = totalP2P.p2p_amount;
+    const { downline_user, ...cleanPromotionData } = promotionRow;
+
+    const finalData = {
+      total_first_recharge_count: cleanPromotionData.total_first_recharge_count || 0,
+      total_recharge_count: cleanPromotionData.total_recharge_count || 0,
+      total_recharge_amount: cleanPromotionData.total_recharge_amount || 0,
+      total_bet_count: cleanPromotionData.total_bet_count || 0,
+      total_bet_amount: cleanPromotionData.total_bet_amount || 0,
+      better_number: cleanPromotionData.better_number || 0,
+      first_deposit_amount: cleanPromotionData.first_deposit_amount || 0,
+      p2p_count: totalP2P.p2p_count,
+      p2p_amount: totalP2P.p2p_amount,
+    };
 
     return res.status(200).json({
-      data: cleanPromotionData,
-      levelData: levelTotals,
+      data: finalData,
+      levelData: levelTotals || {},
+      userData: commissions || [],
       status: true,
       message: "Promotion data retrieved",
-      userData: commissions,
     });
+
   } catch (error) {
+
     console.error("Error fetching promotion data:", error);
+
     return res.status(500).json({
       message: "Internal server error",
       status: false,
@@ -6844,7 +7029,6 @@ const fetchPromotionDataUser = async (req, res) => {
     });
   }
 };
-
 
 const zilpay = async (req, res) => {
   try {

@@ -233,7 +233,7 @@ const Activity = () => {
           onClick={() => navigate("/activity/ActivityDetail?id=10")}
         >
           <img
-            src={"https://i.ibb.co/F4XqF9RJ/commissionchart-Front.png"}
+            src={"https://res.cloudinary.com/dnawxpdib/image/upload/v1773468965/comm_pesxsp.jpg"}
             alt=""
             loading="lazy"
             className="rounded-t-xl h-44 w-full"

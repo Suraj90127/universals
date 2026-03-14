@@ -15,7 +15,7 @@ const ActivityDetail = () => {
   }, []);
 
 
-const data = ["/img1.jpeg", "/img2.jpeg", "/img3.jpeg"];
+const data = ["/img1.jpeg", "/img2.jpeg"];
 
 function getRandomImage() {
   const randomIndex = Math.floor(Math.random() * data.length);
@@ -163,7 +163,7 @@ const randomImage = getRandomImage();
         {id == 10 && (
           <div>
             <img
-              src={"https://i.ibb.co/F4XqF9RJ/commissionchart-Front.png"}
+              src={"https://res.cloudinary.com/dnawxpdib/image/upload/v1773468869/commintion_hyjn4c.jpg"}
               alt=""
               className="w-full"
               loading="lazy"
