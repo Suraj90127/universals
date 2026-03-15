@@ -3,6 +3,7 @@ import winGoController from "./winGoController";
 import k5Controller from "./k5Controller";
 import k3Controller from "./k3Controller";
 import userController from "./userController";
+import commissionController from "./commissionController"
 import cron from "node-cron";
 const cronJobGame1p =async (io) => {
   
@@ -11,10 +12,15 @@ console.log("Current server time:", currentTime.toString());
 
 
 
+
+
+
   cron.schedule("0 1 * * *", async () => {
   console.log("Running cron at 1:00 AM IS dddT");
      await winGoController.tradeCommission();
       // await userController.vipLevelEvery();
+         await commissionController.downlinerecharge_new();
+         await commissionController.promotion();
       
 }, {
   timezone: "Asia/Kolkata"
